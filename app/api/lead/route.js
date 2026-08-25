@@ -159,7 +159,14 @@ async function envoyerCopie({ titre, description, p, temperature }) {
 }
 
 export async function POST(request) {
-  console.log("[cap] /api/lead appelée");
+  console.log(
+    "[cap] /api/lead appelée · noCRM:",
+    process.env.NOCRM_API_KEY ? "clé OK" : "CLÉ MANQUANTE",
+    "· sous-domaine:",
+    process.env.NOCRM_SUBDOMAIN || "MANQUANT",
+    "· Resend:",
+    process.env.RESEND_API_KEY ? "OK" : "absent"
+  );
   let d;
   try {
     d = await request.json();

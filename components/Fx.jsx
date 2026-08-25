@@ -64,7 +64,16 @@ export default function Fx() {
       return [d, h];
     });
 
+    // Filet de sécurité : rien ne doit rester invisible à cause de l'observateur.
+    const filet = setInterval(() => {
+      document.querySelectorAll(".reveal:not(.vu)").forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.top < innerHeight && r.bottom > 0) el.classList.add("vu");
+      });
+    }, 1200);
+
     return () => {
+      clearInterval(filet);
       io.disconnect();
       removeEventListener("scroll", onScroll);
       document.removeEventListener("click", surClic);

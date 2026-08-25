@@ -131,7 +131,7 @@ export default function Formulaire() {
     );
 
     return (
-      <div className="form reveal" ref={bloc}>
+      <div className="form reveal vu" ref={bloc}>
         <div className="succes on">
           <span className={"chip " + (echec ? "chip--rose" : "chip--vert")} style={{ marginBottom: "1.4em" }}>
             {echec ? "TRANSMISSION INTERROMPUE" : "DOSSIER REÇU"}
@@ -206,7 +206,7 @@ export default function Formulaire() {
   const erreur = (c) => (manque === c ? { borderColor: "var(--rose)" } : undefined);
 
   return (
-    <form className="form reveal" ref={bloc} onSubmit={envoyer}>
+    <form className="form reveal vu" ref={bloc} onSubmit={envoyer}>
       <div className="entete">
         <div className="ligne">
           <span>
