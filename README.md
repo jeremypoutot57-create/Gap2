@@ -17,6 +17,9 @@ npm run dev                  # http://localhost:3000
 |---|---|---|
 | `NOCRM_SUBDOMAIN` | oui | Sous-domaine noCRM, sans `.nocrm.io` |
 | `NOCRM_API_KEY` | oui | Clé API noCRM. **À régénérer** : l'ancienne a transité par une discussion |
+| `RESEND_API_KEY` | oui | Clé Resend pour la copie mail du lead |
+| `LEAD_EMAIL_TO` | non | Destinataires, séparés par des virgules. Défaut : `contact@arras-patrimoine.fr` |
+| `LEAD_EMAIL_FROM` | non | Expéditeur, sur un domaine vérifié dans Resend |
 | `NEXT_PUBLIC_SITE_URL` | oui | `https://cap.arras-patrimoine.fr` |
 | `NEXT_PUBLIC_CAL_URL` | non | Lien Cal, par défaut `.../decouverte-rem` |
 | `NEXT_PUBLIC_BUNNY_LIBRARY` | non | Bibliothèque Bunny, par défaut `602292` |
@@ -26,8 +29,25 @@ npm run dev                  # http://localhost:3000
 | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | non | Active le script Plausible |
 | `NEXT_PUBLIC_GA_ID` | non | Réservé si vous branchez GA4 via GTM |
 
-Sans clé noCRM, la route `/api/lead` ne perd rien : elle journalise le lead dans les logs Vercel
-et répond quand même en succès. À surveiller les premiers jours.
+### Deux canaux, aucun lead perdu
+
+Chaque envoi part vers **noCRM** (création du lead par l'API) **et** vers votre boîte mail (copie
+complète du brief d'appel, avec un bouton répondre et un bouton appeler). Les deux sont
+indépendants : si noCRM tombe, le mail part quand même, et inversement. En dernier recours, le lead
+est journalisé dans les logs Vercel. Le visiteur voit toujours l'écran de succès.
+
+Le champ `reply_to` du mail est l'adresse du dirigeant : vous répondez directement depuis votre
+boîte, sans copier-coller.
+
+**Mise en route de Resend.** Créer un compte sur resend.com, ajouter le domaine
+`arras-patrimoine.fr`, copier les enregistrements DNS proposés (un TXT de vérification, un CNAME ou
+TXT DKIM, éventuellement un TXT DMARC) dans la zone DNS Infomaniak, attendre la validation, puis
+générer une clé API et la coller dans les variables Vercel. Tant que le domaine n'est pas vérifié,
+Resend refuse les envois : c'est normal et c'est ce qui vous évite le dossier spam.
+
+**La clé noCRM.** Celle qui a servi en août a transité par une discussion : la révoquer dans noCRM,
+en générer une neuve, et la saisir uniquement dans les variables d'environnement Vercel. Jamais
+dans le dépôt.
 
 ## Déploiement GitHub puis Vercel
 

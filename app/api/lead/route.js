@@ -96,7 +96,70 @@ function evaluer(p) {
   return { note, temperature, alertes };
 }
 
+
+// —— Copie par mail vers le cabinet. Silencieuse si Resend n'est pas configuré. ——
+async function envoyerCopie({ titre, description, p, temperature }) {
+  const cle = process.env.RESEND_API_KEY;
+  const dest = (process.env.LEAD_EMAIL_TO || "contact@arras-patrimoine.fr")
+    .split(",")
+    .map((x) => x.trim())
+    .filter(Boolean);
+  const exp = process.env.LEAD_EMAIL_FROM || "Cap. <notifications@arras-patrimoine.fr>";
+
+  if (!cle) {
+    console.warn("[cap] RESEND_API_KEY absente — pas de copie mail envoyée.");
+    return { ok: false, raison: "non configuré" };
+  }
+
+  const couleur =
+    temperature === "CHAUD" ? "#E85D8A" : temperature === "TIÈDE" ? "#E0A94B" : "#65758C";
+
+  const html = `<div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;background:#0C1626;color:#E9EEF5;padding:28px">
+  <div style="max-width:640px;margin:0 auto;background:#101E33;border:1px solid rgba(255,255,255,.14);border-radius:4px;overflow:hidden">
+    <div style="border-top:3px solid ${couleur};padding:22px 24px 6px">
+      <div style="font-family:ui-monospace,monospace;font-size:11px;letter-spacing:.16em;color:${couleur}">NOUVEAU DOSSIER · ${temperature}</div>
+      <h1 style="font-size:19px;margin:12px 0 0;color:#fff">${titre}</h1>
+    </div>
+    <div style="padding:18px 24px 26px">
+      <pre style="white-space:pre-wrap;font-family:ui-monospace,monospace;font-size:13px;line-height:1.6;color:#D7E0EB;margin:0">${description
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")}</pre>
+      <div style="margin-top:24px;padding-top:18px;border-top:1px solid rgba(255,255,255,.14)">
+        <a href="mailto:${p.email}" style="display:inline-block;background:#E85D8A;color:#170A10;text-decoration:none;font-weight:600;padding:12px 18px;border-radius:3px;font-size:14px">Répondre à ${p.email}</a>
+        <a href="tel:${p.telephone.replace(/\s/g, "")}" style="display:inline-block;margin-left:10px;border:1px solid rgba(255,255,255,.26);color:#E9EEF5;text-decoration:none;padding:12px 18px;border-radius:3px;font-size:14px">Appeler ${p.telephone}</a>
+      </div>
+      <p style="font-size:12px;color:#65758C;margin:18px 0 0">Réponse promise sous deux heures ouvrées. Le lead a aussi été créé dans noCRM.</p>
+    </div>
+  </div>
+</div>`;
+
+  try {
+    const r = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${cle}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: exp,
+        to: dest,
+        reply_to: p.email,
+        subject: `[${temperature}] ${titre}`,
+        html,
+        text: description,
+      }),
+    });
+    if (!r.ok) {
+      console.error("[cap] Resend a refusé l'envoi :", r.status, await r.text());
+      return { ok: false, raison: "refus" };
+    }
+    return { ok: true };
+  } catch (e) {
+    console.error("[cap] Resend injoignable :", e);
+    return { ok: false, raison: "injoignable" };
+  }
+}
+
 export async function POST(request) {
+  console.log("[cap] /api/lead appelée");
   let d;
   try {
     d = await request.json();
@@ -178,9 +241,13 @@ export async function POST(request) {
   const sousDomaine = process.env.NOCRM_SUBDOMAIN;
   const cle = process.env.NOCRM_API_KEY;
 
+  // La copie mail part toujours, que noCRM réponde ou non.
+  const copie = envoyerCopie({ titre, description, p, temperature });
+
   if (!sousDomaine || !cle) {
     console.warn("[cap] noCRM non configuré — lead journalisé :", titre);
     console.warn(description);
+    await copie;
     return Response.json({ ok: true, mode: "journal" });
   }
 
@@ -198,12 +265,30 @@ export async function POST(request) {
     if (!r.ok) {
       console.error("[cap] noCRM a refusé le lead :", r.status, await r.text());
       console.error(description);
-      return Response.json({ ok: true, mode: "journal" });
+      const m = await copie;
+      return Response.json({ ok: true, mode: "journal", mail: m.ok });
     }
-    return Response.json({ ok: true, mode: "nocrm" });
+    const m = await copie;
+    return Response.json({ ok: true, mode: "nocrm", mail: m.ok });
   } catch (e) {
     console.error("[cap] noCRM injoignable :", e);
     console.error(description);
-    return Response.json({ ok: true, mode: "journal" });
+    const m = await copie;
+    return Response.json({ ok: true, mode: "journal", mail: m.ok });
   }
+}
+
+// —— Diagnostic : ouvrir https://cap.arras-patrimoine.fr/api/lead dans le navigateur. ——
+// Ne révèle aucune valeur, seulement la présence des variables.
+export async function GET() {
+  return Response.json({
+    route: "opérationnelle",
+    version: "v4",
+    variables: {
+      NOCRM_API_KEY: process.env.NOCRM_API_KEY ? "présente" : "MANQUANTE",
+      NOCRM_SUBDOMAIN: process.env.NOCRM_SUBDOMAIN || "MANQUANTE",
+      RESEND_API_KEY: process.env.RESEND_API_KEY ? "présente" : "manquante (copie mail désactivée)",
+      LEAD_EMAIL_TO: process.env.LEAD_EMAIL_TO || "défaut : contact@arras-patrimoine.fr",
+    },
+  });
 }

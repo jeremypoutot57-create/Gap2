@@ -29,6 +29,7 @@ export default function Formulaire() {
   const [etape, setEtape] = useState(1);
   const [etat, setEtat] = useState("saisie");
   const [manque, setManque] = useState("");
+  const [echec, setEchec] = useState(false);
   const demarre = useRef(false);
   const bloc = useRef(null);
 
@@ -88,45 +89,104 @@ export default function Formulaire() {
   const envoyer = async (e) => {
     e.preventDefault();
     setEtat("envoi");
+    let transmis = false;
     try {
       const r = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(d),
       });
-      if (!r.ok) throw new Error("api");
-      setEtat("succes");
-      ev("lead_envoye", {
-        statut: d.statut,
-        remuneration: d.remuneration,
-        declencheurs: d.declencheurs.join(","),
-        echeance: d.echeance,
-      });
-      bloc.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    } catch {
-      setEtat("erreur");
+      transmis = r.ok;
+      if (!r.ok) console.error("[cap] /api/lead a répondu", r.status, await r.text());
+    } catch (err) {
+      console.error("[cap] envoi impossible :", err);
     }
+    // Le visiteur voit toujours l'écran de suite : on ne le laisse jamais dans le vide.
+    setEchec(!transmis);
+    setEtat("succes");
+    ev(transmis ? "lead_envoye" : "lead_echec", {
+      statut: d.statut,
+      remuneration: d.remuneration,
+      declencheurs: d.declencheurs.join(","),
+      echeance: d.echeance,
+    });
+    bloc.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   if (etat === "succes") {
+    const sujet = encodeURIComponent("Dossier Cap. — " + (d.statut || "dirigeant"));
+    const corps = encodeURIComponent(
+      [
+        "Rémunération annuelle : " + d.remuneration,
+        "Composition : " + d.composition,
+        "Statut : " + d.statut,
+        "Chiffre d'affaires : " + d.ca,
+        "Qui s'en occupe : " + d.suivi,
+        "Ce que je voudrais : " + d.souhait,
+        "Échéance : " + d.echeance,
+        "Téléphone : " + d.telephone,
+        "",
+        d.reussite,
+      ].join("\n")
+    );
+
     return (
       <div className="form reveal" ref={bloc}>
         <div className="succes on">
-          <span className="chip chip--vert" style={{ marginBottom: "1.4em" }}>
-            DOSSIER REÇU
+          <span className={"chip " + (echec ? "chip--rose" : "chip--vert")} style={{ marginBottom: "1.4em" }}>
+            {echec ? "TRANSMISSION INTERROMPUE" : "DOSSIER REÇU"}
           </span>
-          <h3>Votre fiche est arrivée chez nous.</h3>
-          <p>
-            Nous l&apos;avons lue en entier, ce n&apos;est pas un formulaire automatique. Jérémy ou
-            Marie-Amélie vous répond sous deux heures ouvrées, personnellement, en reprenant ce que
-            vous venez d&apos;écrire. Si votre dossier ne relève pas de Cap., vous le saurez dans le
-            même délai, avec une indication de ce qu&apos;il faut regarder à la place.
-          </p>
-          <p>
-            Vous pouvez déjà poser votre créneau de trente minutes ci-dessous. C&apos;est autant de
-            gagné, et cela nous permet d&apos;arriver à l&apos;échange avec votre situation déjà
-            ouverte.
-          </p>
+
+          {echec ? (
+            <>
+              <h3>Votre connexion a coupé avant la fin de l&apos;envoi.</h3>
+              <p>
+                Rien n&apos;est perdu, mais nous n&apos;avons pas encore votre fiche. Le plus rapide
+                est de poser directement un créneau de trente minutes : nous reprendrons tout avec
+                vous en direct.
+              </p>
+              <p>
+                Vous pouvez aussi nous écrire en un clic, vos réponses sont déjà mises en forme dans
+                le message.
+              </p>
+            </>
+          ) : (
+            <>
+              <h3>Votre fiche est arrivée chez nous.</h3>
+              <p>
+                Nous l&apos;avons lue en entier, ce n&apos;est pas un formulaire automatique. Jérémy
+                ou Marie-Amélie vous répond sous deux heures ouvrées, personnellement, en reprenant
+                ce que vous venez d&apos;écrire. Si votre dossier ne relève pas de Cap., vous le
+                saurez dans le même délai, avec une indication de ce qu&apos;il faut regarder à la
+                place.
+              </p>
+              <p>
+                Une dernière chose, et c&apos;est la plus utile : posez votre créneau de trente
+                minutes maintenant. C&apos;est autant de gagné, et cela nous permet d&apos;arriver à
+                l&apos;échange avec votre situation déjà ouverte.
+              </p>
+            </>
+          )}
+
+          <div style={{ display: "flex", gap: "1em", flexWrap: "wrap", marginTop: "1.8em" }}>
+            <a
+              className="btn btn--primaire"
+              href={CAL}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-ev="cta_cal_succes"
+            >
+              Choisir mon créneau de 30 minutes <span className="fl">→</span>
+            </a>
+            <a
+              className="btn btn--fantome"
+              href={"mailto:contact@arras-patrimoine.fr?subject=" + sujet + "&body=" + corps}
+              data-ev="cta_mail_succes"
+            >
+              Nous écrire directement
+            </a>
+          </div>
+
           <div className="cal-embed">
             <iframe
               src={CAL + "?embed=true"}
@@ -134,6 +194,10 @@ export default function Formulaire() {
               loading="lazy"
             />
           </div>
+          <p style={{ fontSize: "13px", color: "var(--gris-bas)", margin: "1em 0 0" }}>
+            Le calendrier ne s&apos;affiche pas ? Utilisez le bouton ci-dessus, il ouvre la même
+            page dans un nouvel onglet.
+          </p>
         </div>
       </div>
     );
