@@ -550,8 +550,7 @@ export default function Page() {
             </p>
             <div className="gens reveal" style={{ marginTop: "2.4rem" }}>
               <div className="p">
-                {/* Remplacer par <img src="/jeremy.jpg" alt="Jérémy Poutot" className="ph" /> */}
-                <div className="ph mono">JP</div>
+                <img src="/jeremy.png" alt="Jérémy Poutot" className="ph" width="880" height="1100" />
                 <div>
                   <h4>Jérémy Poutot</h4>
                   <span className="role">Fondateur · arbitrage</span>
@@ -564,7 +563,7 @@ export default function Page() {
                 </div>
               </div>
               <div className="p">
-                <div className="ph mono">MA</div>
+                <img src="/marie-amelie.png" alt="Marie-Amélie" className="ph" width="880" height="1100" />
                 <div>
                   <h4>Marie-Amélie</h4>
                   <span className="role">Pôle ingénierie · construction</span>

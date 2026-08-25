@@ -342,7 +342,7 @@ export async function GET(request) {
 
   return Response.json({
     route: "opérationnelle",
-    version: "v4",
+    version: "v5",
     variables: {
       NOCRM_API_KEY: process.env.NOCRM_API_KEY ? "présente" : "MANQUANTE",
       NOCRM_SUBDOMAIN: process.env.NOCRM_SUBDOMAIN || "MANQUANTE",
