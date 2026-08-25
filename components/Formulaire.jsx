@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { ev } from "./mesure";
+import { DECLENCHEURS, ECHEANCES, COUTS, TENTATIVES, CONDITIONNELLES, SOUHAITS } from "./donnees";
+import { phraseRecap, lignesRecap } from "./recapitulatif";
 
 const CAL = process.env.NEXT_PUBLIC_CAL_URL || "https://cal.com/arras-patrimoine/decouverte-rem";
 
@@ -10,15 +12,23 @@ const VIDE = {
   statut: "",
   ca: "",
   suivi: "",
+  declencheurs: [],
+  souhait: "",
+  conditionnelles: {},
+  echeance: "",
+  cout: "",
+  tentative: "",
+  reussite: "",
   email: "",
   telephone: "",
-  message: "",
+  precision: "",
 };
 
 export default function Formulaire() {
   const [d, setD] = useState(VIDE);
   const [etape, setEtape] = useState(1);
-  const [etat, setEtat] = useState("saisie"); // saisie | envoi | succes | erreur
+  const [etat, setEtat] = useState("saisie");
+  const [manque, setManque] = useState("");
   const demarre = useRef(false);
   const bloc = useRef(null);
 
@@ -28,23 +38,50 @@ export default function Formulaire() {
     return () => window.removeEventListener("cap:tranche", surTranche);
   }, []);
 
-  const maj = (champ) => (e) => {
+  const marquerDemarrage = () => {
     if (!demarre.current) {
       demarre.current = true;
       ev("form_demarre");
     }
+  };
+
+  const maj = (champ) => (e) => {
+    marquerDemarrage();
+    setManque("");
     setD((x) => ({ ...x, [champ]: e.target.value }));
   };
 
-  const versEtape2 = () => {
-    const requis = ["remuneration", "composition", "statut", "ca", "suivi"];
-    const manquant = requis.find((c) => !d[c]);
-    if (manquant) {
-      document.getElementById("ch-" + manquant)?.focus();
+  const basculer = (cle) => {
+    marquerDemarrage();
+    setManque("");
+    setD((x) => ({
+      ...x,
+      declencheurs: x.declencheurs.includes(cle)
+        ? x.declencheurs.filter((k) => k !== cle)
+        : [...x.declencheurs, cle],
+    }));
+  };
+
+  const majCond = (id) => (e) => {
+    marquerDemarrage();
+    setManque("");
+    const v = e.target.value;
+    setD((x) => ({ ...x, conditionnelles: { ...x.conditionnelles, [id]: v } }));
+  };
+
+  // Les questions conditionnelles suivent l'ordre des déclencheurs cochés, trois au maximum.
+  const conditionnellesActives = () =>
+    d.declencheurs.map((k) => CONDITIONNELLES[k]).filter(Boolean).slice(0, 3);
+
+  const aller = (cible, requis) => {
+    const absent = requis.find((c) => (Array.isArray(d[c]) ? d[c].length === 0 : !d[c]));
+    if (absent) {
+      setManque(absent);
+      document.getElementById("ch-" + absent)?.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
-    setEtape(2);
-    ev("form_etape2");
+    setEtape(cible);
+    ev("form_etape" + cible);
     bloc.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
@@ -59,7 +96,12 @@ export default function Formulaire() {
       });
       if (!r.ok) throw new Error("api");
       setEtat("succes");
-      ev("lead_envoye", { statut: d.statut, remuneration: d.remuneration });
+      ev("lead_envoye", {
+        statut: d.statut,
+        remuneration: d.remuneration,
+        declencheurs: d.declencheurs.join(","),
+        echeance: d.echeance,
+      });
       bloc.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     } catch {
       setEtat("erreur");
@@ -75,13 +117,15 @@ export default function Formulaire() {
           </span>
           <h3>Votre fiche est arrivée chez nous.</h3>
           <p>
-            Jérémy ou Marie-Amélie vous répond sous deux heures ouvrées, personnellement. Si votre
-            dossier ne relève pas de Cap., vous le saurez dans le même délai, avec une indication de
-            ce qu&apos;il faut regarder à la place.
+            Nous l&apos;avons lue en entier, ce n&apos;est pas un formulaire automatique. Jérémy ou
+            Marie-Amélie vous répond sous deux heures ouvrées, personnellement, en reprenant ce que
+            vous venez d&apos;écrire. Si votre dossier ne relève pas de Cap., vous le saurez dans le
+            même délai, avec une indication de ce qu&apos;il faut regarder à la place.
           </p>
           <p>
             Vous pouvez déjà poser votre créneau de trente minutes ci-dessous. C&apos;est autant de
-            gagné, et cela nous permet d&apos;ouvrir votre situation dès le premier échange.
+            gagné, et cela nous permet d&apos;arriver à l&apos;échange avec votre situation déjà
+            ouverte.
           </p>
           <div className="cal-embed">
             <iframe
@@ -95,27 +139,46 @@ export default function Formulaire() {
     );
   }
 
+  const erreur = (c) => (manque === c ? { borderColor: "var(--rose)" } : undefined);
+
   return (
     <form className="form reveal" ref={bloc} onSubmit={envoyer}>
       <div className="entete">
         <div className="ligne">
           <span>
-            {etape === 1 ? "Étape 1 sur 2 · votre situation" : "Étape 2 sur 2 · vos coordonnées"}
+            {etape === 1
+              ? "Étape 1 sur 4 · votre situation"
+              : etape === 2
+              ? "Étape 2 sur 4 · ce qui vous amène"
+              : etape === 3
+              ? "Étape 3 sur 4 · vos coordonnées"
+              : "Étape 4 sur 4 · ce que nous avons compris"}
           </span>
           <span>Réponse sous 2 h ouvrées</span>
         </div>
         <div className="jauge">
-          <i style={{ width: etape === 1 ? "50%" : "100%" }} />
+          <i style={{ width: etape * 25 + "%" }} />
         </div>
       </div>
 
       <div className="corps">
+        {/* ——— ÉTAPE 1 ——— */}
         <div className={"ecran" + (etape === 1 ? " on" : "")}>
+          <p className="etape-titre">Les chiffres, en tranches</p>
           <div className="champ">
             <label htmlFor="ch-remuneration">
               Ce que vous vous versez par an, salaire et dividendes confondus
             </label>
-            <select id="ch-remuneration" value={d.remuneration} onChange={maj("remuneration")}>
+            <span className="aide">
+              Une tranche suffit, personne ne vous demandera de justificatif. C&apos;est le premier
+              chiffre que nous regardons : c&apos;est lui qui dit si un levier existe chez vous.
+            </span>
+            <select
+              id="ch-remuneration"
+              value={d.remuneration}
+              onChange={maj("remuneration")}
+              style={erreur("remuneration")}
+            >
               <option value="">Choisir</option>
               <option>Moins de 30 000 €</option>
               <option>30 000 à 50 000 €</option>
@@ -124,10 +187,20 @@ export default function Formulaire() {
               <option>Plus de 120 000 €</option>
             </select>
           </div>
+
           <div className="duo">
             <div className="champ">
               <label htmlFor="ch-composition">Comment cela se compose</label>
-              <select id="ch-composition" value={d.composition} onChange={maj("composition")}>
+              <span className="aide">
+                Le mélange compte souvent plus que le montant. « Je ne sais pas exactement » est une
+                réponse fréquente et parfaitement recevable.
+              </span>
+              <select
+                id="ch-composition"
+                value={d.composition}
+                onChange={maj("composition")}
+                style={erreur("composition")}
+              >
                 <option value="">Choisir</option>
                 <option>Surtout du salaire</option>
                 <option>Surtout des dividendes</option>
@@ -137,7 +210,11 @@ export default function Formulaire() {
             </div>
             <div className="champ">
               <label htmlFor="ch-statut">Votre statut</label>
-              <select id="ch-statut" value={d.statut} onChange={maj("statut")}>
+              <span className="aide">
+                Gérant majoritaire ou président assimilé salarié : les règles ne sont pas les mêmes,
+                et les leviers non plus.
+              </span>
+              <select id="ch-statut" value={d.statut} onChange={maj("statut")} style={erreur("statut")}>
                 <option value="">Choisir</option>
                 <option>Gérant de SARL ou EURL</option>
                 <option>Président de SAS ou SASU</option>
@@ -147,10 +224,15 @@ export default function Formulaire() {
               </select>
             </div>
           </div>
+
           <div className="duo">
             <div className="champ">
               <label htmlFor="ch-ca">Chiffre d&apos;affaires annuel</label>
-              <select id="ch-ca" value={d.ca} onChange={maj("ca")}>
+              <span className="aide">
+                En dessous de 150 000 €, nous vous le dirons franchement : le levier n&apos;existe pas
+                encore et la mission ne vaudrait pas son prix.
+              </span>
+              <select id="ch-ca" value={d.ca} onChange={maj("ca")} style={erreur("ca")}>
                 <option value="">Choisir</option>
                 <option>Moins de 150 000 €</option>
                 <option>150 000 à 500 000 €</option>
@@ -160,8 +242,15 @@ export default function Formulaire() {
               </select>
             </div>
             <div className="champ">
-              <label htmlFor="ch-suivi">Quelqu&apos;un s&apos;occupe-t-il de ce sujet aujourd&apos;hui</label>
-              <select id="ch-suivi" value={d.suivi} onChange={maj("suivi")}>
+              <label htmlFor="ch-suivi">
+                Quelqu&apos;un s&apos;occupe-t-il de ce sujet aujourd&apos;hui
+              </label>
+              <span className="aide">
+                Cette question ne cherche pas à savoir si votre expert-comptable est bon. Elle
+                cherche à savoir si quelqu&apos;un a le mandat d&apos;arbitrer, ce qui est autre
+                chose.
+              </span>
+              <select id="ch-suivi" value={d.suivi} onChange={maj("suivi")} style={erreur("suivi")}>
                 <option value="">Choisir</option>
                 <option>Personne</option>
                 <option>Mon expert-comptable, quand j&apos;y pense</option>
@@ -170,17 +259,181 @@ export default function Formulaire() {
               </select>
             </div>
           </div>
+
           <div style={{ display: "flex", gap: "1.2em", alignItems: "center", flexWrap: "wrap" }}>
-            <button className="btn btn--primaire" type="button" onClick={versEtape2}>
+            <button
+              className="btn btn--primaire"
+              type="button"
+              onClick={() => aller(2, ["remuneration", "composition", "statut", "ca", "suivi"])}
+            >
               Continuer <span className="fl">→</span>
             </button>
             <span className="micro" style={{ margin: 0 }}>
-              Aucune coordonnée demandée à cette étape.
+              Aucune coordonnée demandée avant la dernière étape.
             </span>
           </div>
         </div>
 
+        {/* ——— ÉTAPE 2 ——— */}
         <div className={"ecran" + (etape === 2 ? " on" : "")}>
+          <p className="etape-titre">Ce qui vous amène</p>
+
+          <div className="champ" id="ch-declencheurs">
+            <label>Qu&apos;est-ce qui vous a fait ouvrir cette page ?</label>
+            <span className="aide">
+              Cochez tout ce qui vous parle, même partiellement. C&apos;est la partie que nous lisons
+              en premier : elle nous dit par où commencer votre dossier, et elle nous évite de vous
+              faire répéter au téléphone.
+            </span>
+            <div className="cases">
+              {DECLENCHEURS.map(([cle, texte]) => {
+                const actif = d.declencheurs.includes(cle);
+                return (
+                  <label
+                    className={"case" + (actif ? " on" : "")}
+                    key={cle}
+                    style={manque === "declencheurs" && !actif ? { borderColor: "var(--rose-30)" } : undefined}
+                  >
+                    <input type="checkbox" checked={actif} onChange={() => basculer(cle)} />
+                    <span>{texte}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="champ">
+            <label htmlFor="ch-cout">
+              Si rien ne change, qu&apos;est-ce que ça vous coûte chaque année ?
+            </label>
+            <span className="aide">
+              Personne ne le sait précisément, c&apos;est normal : c&apos;est justement ce que la
+              mission chiffre. Répondez au feeling, votre intuition nous intéresse autant que le
+              chiffre réel.
+            </span>
+            <select id="ch-cout" value={d.cout} onChange={maj("cout")} style={erreur("cout")}>
+              <option value="">Choisir</option>
+              {COUTS.map((c) => (
+                <option key={c}>{c}</option>
+              ))}
+            </select>
+          </div>
+
+          {conditionnellesActives().map((q) => (
+            <div className="champ conditionnelle" key={q.id}>
+              <span className="repere">Parce que vous avez coché ci-dessus</span>
+              <label htmlFor={"ch-" + q.id}>{q.label}</label>
+              <span className="aide">{q.aide}</span>
+              <select
+                id={"ch-" + q.id}
+                value={d.conditionnelles[q.id] || ""}
+                onChange={majCond(q.id)}
+              >
+                <option value="">Choisir</option>
+                {q.options.map((o) => (
+                  <option key={o}>{o}</option>
+                ))}
+              </select>
+            </div>
+          ))}
+
+          <div className="champ">
+            <label htmlFor="ch-souhait">
+              Et vous, vous voudriez vous verser combien ?
+            </label>
+            <span className="aide">
+              L&apos;écart entre ce que vous vous versez et ce que vous voudriez vous verser, c&apos;est
+              exactement le terrain de la mission. Répondez sans vous censurer : ce n&apos;est pas une
+              demande, c&apos;est un point de départ.
+            </span>
+            <select
+              id="ch-souhait"
+              value={d.souhait}
+              onChange={maj("souhait")}
+              style={erreur("souhait")}
+            >
+              <option value="">Choisir</option>
+              {SOUHAITS.map((o) => (
+                <option key={o}>{o}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="duo">
+            <div className="champ">
+              <label htmlFor="ch-echeance">Y a-t-il une échéance qui vous pousse ?</label>
+              <span className="aide">
+                Une clôture, un emprunt, un associé qui bouge : l&apos;ordre des décisions change
+                complètement selon le calendrier.
+              </span>
+              <select
+                id="ch-echeance"
+                value={d.echeance}
+                onChange={maj("echeance")}
+                style={erreur("echeance")}
+              >
+                <option value="">Choisir</option>
+                {ECHEANCES.map((c) => (
+                  <option key={c}>{c}</option>
+                ))}
+              </select>
+            </div>
+            <div className="champ">
+              <label htmlFor="ch-tentative">Qu&apos;avez-vous déjà tenté sur ce sujet ?</label>
+              <span className="aide">
+                Savoir ce qui n&apos;a pas marché nous évite de vous le reproposer. Aucune réponse
+                n&apos;est disqualifiante ici.
+              </span>
+              <select
+                id="ch-tentative"
+                value={d.tentative}
+                onChange={maj("tentative")}
+                style={erreur("tentative")}
+              >
+                <option value="">Choisir</option>
+                {TENTATIVES.map((c) => (
+                  <option key={c}>{c}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div style={{ display: "flex", gap: "1.2em", alignItems: "center", flexWrap: "wrap" }}>
+            <button
+              className="btn btn--primaire"
+              type="button"
+              onClick={() => aller(3, ["declencheurs", "cout", "souhait", "echeance", "tentative"])}
+            >
+              Continuer <span className="fl">→</span>
+            </button>
+            <button className="btn btn--texte" type="button" onClick={() => setEtape(1)}>
+              Revenir en arrière
+            </button>
+          </div>
+        </div>
+
+        {/* ——— ÉTAPE 3 ——— */}
+        <div className={"ecran" + (etape === 3 ? " on" : "")}>
+          <p className="etape-titre">Pour vous répondre</p>
+
+          <div className="champ">
+            <label htmlFor="ch-reussite">
+              Dans six mois, à quoi verrez-vous que c&apos;était la bonne décision ?
+            </label>
+            <span className="aide">
+              Une phrase suffit, écrite comme vous la diriez. C&apos;est la question la plus utile de
+              toute cette fiche : elle nous donne votre critère de réussite à vous, pas le nôtre, et
+              c&apos;est sur celui-là que nous vous rendrons des comptes au trentième jour.
+            </span>
+            <textarea
+              id="ch-reussite"
+              placeholder="Par exemple : je me verse 1 500 € de plus par mois sans que ça coûte plus cher à la société."
+              value={d.reussite}
+              onChange={maj("reussite")}
+            />
+            <p className="compteur-mots">{d.reussite.trim() ? d.reussite.trim().split(/\s+/).length : 0} mots</p>
+          </div>
+
           <div className="duo">
             <div className="champ">
               <label htmlFor="ch-email">E-mail</label>
@@ -205,21 +458,74 @@ export default function Formulaire() {
               />
             </div>
           </div>
+
           <div className="champ">
-            <label htmlFor="ch-message">Ce qui vous amène, en deux lignes</label>
+            <label htmlFor="ch-precision">Quelque chose que nous devrions savoir ?</label>
+            <span className="aide">
+              Facultatif. Un associé compliqué, un dossier en cours, une contrainte familiale, une
+              mauvaise expérience : dites-le ici plutôt que de le découvrir en séance.
+            </span>
             <textarea
-              id="ch-message"
-              placeholder="Écrivez-le comme vous le diriez au téléphone."
-              value={d.message}
-              onChange={maj("message")}
+              id="ch-precision"
+              placeholder="Facultatif."
+              value={d.precision}
+              onChange={maj("precision")}
             />
           </div>
+
           <div style={{ display: "flex", gap: "1.2em", alignItems: "center", flexWrap: "wrap" }}>
-            <button className="btn btn--primaire" type="submit" disabled={etat === "envoi"} data-ev="submit">
-              {etat === "envoi" ? "Envoi en cours…" : "Faire examiner ma situation"}{" "}
+            <button
+              className="btn btn--primaire"
+              type="button"
+              onClick={() => aller(4, ["email", "telephone"])}
+            >
+              Voir ce que nous avons compris <span className="fl">→</span>
+            </button>
+            <button className="btn btn--texte" type="button" onClick={() => setEtape(2)}>
+              Revenir en arrière
+            </button>
+          </div>
+
+        </div>
+
+        {/* ——— ÉTAPE 4 · RÉCAPITULATIF ——— */}
+        <div className={"ecran" + (etape === 4 ? " on" : "")}>
+          <p className="etape-titre">Ce que nous avons compris</p>
+
+          <div className="recap">
+            <span className="entete-recap">Votre situation, telle que nous la lisons</span>
+            <p className="phrase">{phraseRecap(d)}</p>
+            <p className="lecture">
+              Si cette phrase est juste, c&apos;est déjà un point de départ : la plupart des
+              dirigeants ne l&apos;ont jamais vue écrite. Si elle est fausse quelque part, corrigez
+              avant d&apos;envoyer, c&apos;est elle que nous lirons en premier.
+            </p>
+            <div className="lignes">
+              {lignesRecap(d).map(([k, v]) => (
+                <div className="l" key={k}>
+                  <span>{k}</span>
+                  <b>{v}</b>
+                </div>
+              ))}
+            </div>
+            <div className="modifier">
+              <button className="btn btn--texte" type="button" onClick={() => setEtape(1)}>
+                Corriger une réponse
+              </button>
+            </div>
+          </div>
+
+          <div style={{ display: "flex", gap: "1.2em", alignItems: "center", flexWrap: "wrap" }}>
+            <button
+              className="btn btn--primaire"
+              type="submit"
+              disabled={etat === "envoi"}
+              data-ev="submit"
+            >
+              {etat === "envoi" ? "Envoi en cours…" : "C'est juste, faites examiner ma situation"}{" "}
               <span className="fl">→</span>
             </button>
-            <button className="btn btn--texte" type="button" onClick={() => setEtape(1)}>
+            <button className="btn btn--texte" type="button" onClick={() => setEtape(3)}>
               Revenir en arrière
             </button>
           </div>
@@ -233,21 +539,22 @@ export default function Formulaire() {
 
           <div className="ensuite">
             <div>
-              <span className="t">ENSUITE · 1</span>Nous lisons votre fiche et nous vérifions si le
-              levier existe chez vous.
+              <span className="t">ENSUITE · 1</span>Nous lisons votre fiche en entier et nous
+              vérifions si le levier existe chez vous.
             </div>
             <div>
               <span className="t">ENSUITE · 2</span>Jérémy ou Marie-Amélie vous répond sous deux
-              heures ouvrées, personnellement.
+              heures ouvrées, en reprenant ce que vous avez écrit.
             </div>
             <div>
               <span className="t">ENSUITE · 3</span>Si le dossier tient, on cale trente minutes.
               Sinon, on vous dit quoi regarder à la place.
             </div>
           </div>
+
           <p style={{ fontSize: "13.5px", color: "var(--gris-bas)", margin: 0 }}>
             Vos informations servent uniquement à qualifier votre dossier. Aucune inscription à une
-            liste de diffusion, aucun partage avec un tiers.
+            liste de diffusion, aucun partage avec un tiers, aucune relance automatique.
           </p>
         </div>
       </div>

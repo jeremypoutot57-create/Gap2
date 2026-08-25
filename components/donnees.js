@@ -68,3 +68,116 @@ export const POSTES = [
   "Frais et avantages pris en charge",
   "Prévoyance et retraite",
 ];
+
+/* ——— Questionnaire : matière de closing ——————————————————————————— */
+
+export const DECLENCHEURS = [
+  ["plafond", "Je me limite dans ce que je me verse, à cause des charges"],
+  ["tresorerie", "La société a de la trésorerie, moi je n'ai rien de côté"],
+  ["holding", "J'ai une holding ou un groupe et je ne sais pas si c'est bien branché"],
+  ["banque", "La banque trouve que je ne gagne pas assez pour emprunter"],
+  ["retraite", "Je ne sais pas ce que je me construis comme retraite ni comme protection"],
+  ["doute", "J'ai le sentiment de laisser de l'argent quelque part sans savoir où"],
+  ["projet", "J'ai un projet précis (achat, cession, association) et je veux être prêt"],
+];
+
+export const ECHEANCES = [
+  "Rien de précis, mais ça traîne depuis trop longtemps",
+  "La prochaine clôture d'exercice",
+  "Un projet d'emprunt ou d'achat dans l'année",
+  "Une entrée ou une sortie d'associé",
+  "Une cession envisagée à moyen terme",
+];
+
+export const COUTS = [
+  "Aucune idée, c'est exactement ce que je veux savoir",
+  "Quelques milliers d'euros, sans plus",
+  "Entre 10 000 et 30 000 € par an",
+  "Plus de 30 000 € par an",
+  "Rien du tout, je veux juste une vérification",
+];
+
+export const TENTATIVES = [
+  "Rien, je n'ai jamais posé la question à quelqu'un",
+  "J'en ai parlé à mon expert-comptable, sans suite concrète",
+  "J'ai lu et cherché tout seul",
+  "J'ai déjà été accompagné, et ça n'a rien donné",
+  "J'ai été démarché, mais on voulait me vendre un produit",
+];
+
+/* ——— Questions conditionnelles : ne s'affichent que si le déclencheur est coché ——— */
+
+export const CONDITIONNELLES = {
+  holding: {
+    id: "q_holding",
+    label: "Votre holding, aujourd'hui, elle fait quoi concrètement ?",
+    aide:
+      "Beaucoup de holdings ont été créées pour une opération précise, puis sont restées là sans emploi. Savoir laquelle est la vôtre change complètement le premier arbitrage.",
+    options: [
+      "Elle détient mes parts et c'est tout",
+      "Elle remonte des dividendes, sans plan derrière",
+      "Elle porte un crédit ou de l'immobilier",
+      "Elle est en sommeil depuis une opération passée",
+      "Je ne sais pas vraiment ce qu'elle fait",
+    ],
+  },
+  banque: {
+    id: "q_banque",
+    label: "Le financement que vous visez, c'est pour quoi ?",
+    aide:
+      "L'ordre des décisions n'est pas le même selon qu'il faut présenter des revenus dans trois mois ou dans deux ans.",
+    options: [
+      "Ma résidence principale",
+      "De l'immobilier locatif ou les murs de la société",
+      "Un rachat ou une croissance externe",
+      "Du matériel ou du besoin en fonds de roulement",
+      "Rien de précis, mais je veux redevenir finançable",
+    ],
+  },
+  tresorerie: {
+    id: "q_tresorerie",
+    label: "Cette trésorerie qui dort, vous la voyez servir à quoi ?",
+    aide:
+      "Sortir, investir ou garder en réserve : ce sont trois plans différents. Autant partir de votre intention.",
+    options: [
+      "La sortir progressivement vers mon patrimoine",
+      "Investir depuis la société ou la holding",
+      "La garder en sécurité pour l'entreprise",
+      "Financer un projet personnel identifié",
+      "Je ne sais pas, c'est la question",
+    ],
+  },
+  projet: {
+    id: "q_projet",
+    label: "Votre projet, il se situe quand ?",
+    aide:
+      "Certaines décisions doivent être prises douze à vingt-quatre mois avant l'opération. Après, la porte est fermée.",
+    options: [
+      "Dans les trois mois",
+      "Dans l'année",
+      "Dans un à deux ans",
+      "Au-delà de deux ans",
+      "Ça dépendra de ce que vous me direz",
+    ],
+  },
+  retraite: {
+    id: "q_retraite",
+    label: "Votre protection aujourd'hui, vous en savez quoi ?",
+    aide:
+      "C'est le poste le plus souvent signé une fois puis oublié. Aucune honte à ne pas savoir, c'est même le cas général.",
+    options: [
+      "J'ai des contrats mais je ne sais pas ce qu'ils couvrent",
+      "Je crois que je suis mal couvert",
+      "Je n'ai rien en dehors du régime obligatoire",
+      "J'ai été conseillé et je pense que c'est correct",
+    ],
+  },
+};
+
+export const SOUHAITS = [
+  "À peu près ce que je me verse déjà, mais mieux construit",
+  "Un peu plus, quelques centaines d'euros par mois",
+  "Nettement plus, de l'ordre de 1 000 à 2 000 € par mois",
+  "Beaucoup plus, ma rémunération n'a rien à voir avec ce que produit la société",
+  "Je ne cherche pas à me verser plus, je cherche à mieux protéger ce que j'ai",
+];

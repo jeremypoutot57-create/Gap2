@@ -54,10 +54,41 @@ vers `cname.vercel-dns.com`.
 4. **La mesure.** Renseigner `NEXT_PUBLIC_PLAUSIBLE_DOMAIN`, ou poser GTM dans `app/layout.jsx`.
 5. **Le maillage.** Ajouter depuis les Planches 02, 07, 08 et 18 du hub un lien vers ce sous-domaine.
 
+## Le questionnaire et le brief d'appel
+
+Le questionnaire tient en quatre écrans : la situation en tranches, ce qui l'amène, les
+coordonnées, puis le récapitulatif. Chaque question porte une aide en clair qui explique pourquoi
+elle est posée : c'est ce qui fait accepter des questions plus intimes que la moyenne.
+
+**Questions conditionnelles.** Cocher un déclencheur à l'écran 2 ouvre une question de relance
+propre à ce déclencheur (holding, banque, trésorerie, projet, protection), trois au maximum pour ne
+pas alourdir. Elles vivent dans `CONDITIONNELLES` (`components/donnees.js`) : ajouter une entrée
+suffit, l'affichage suit.
+
+**Écart souhaité.** La question « vous voudriez vous verser combien » est le meilleur signal
+d'achat de toute la fiche : l'écart entre ce qu'il se verse et ce qu'il voudrait est le terrain
+exact de la mission. Elle pèse jusqu'à 4 points dans le score.
+
+**Récapitulatif.** Avant l'envoi, le dirigeant lit sa propre situation reformulée en une phrase
+(`components/recapitulatif.js`, partagé entre le front et la route API). Le voir écrit produit un
+choc que le formulaire seul ne produit pas, et le brief noCRM porte la même phrase, déjà validée
+par lui : vous ouvrez l'appel dessus.
+
+La route `/api/lead` ne se contente pas de recopier les réponses. Elle calcule une température
+(CHAUD, TIÈDE, FROID, HORS CIBLE) et compose un **brief d'appel** placé en tête de la fiche noCRM :
+la phrase d'ouverture à utiliser selon le déclencheur dominant, le critère de réussite formulé par
+le prospect lui-même, l'échéance, et les points d'attention (déjà déçu, méfiance produit, objection
+reine attendue). Le barème vit dans `evaluer()` : ajustez-le après vos trente premiers appels,
+c'est fait pour.
+
+Les tags posés sur le lead : `CAP`, `landing`, la température, le statut, et le déclencheur
+dominant sous la forme `declencheur:plafond`.
+
 ## Événements mesurés
 
 `video_lecture`, `scroll_25` à `scroll_100`, `micro_engagement` (avec la tranche choisie),
-`form_demarre`, `form_etape2`, `lead_envoye`, `faq_ouverte`, et `clic_*` pour chaque CTA
+`form_demarre`, `form_etape2`, `form_etape3`, `lead_envoye` (avec déclencheurs et échéance),
+`faq_ouverte`, et `clic_*` pour chaque CTA
 identifié par emplacement (`cta_header`, `cta_milieu`, `cta_apres_preuve`, `cta_flottant`,
 `cta_cal_hero`, `cta_cal_milieu`, `cta_cal_preuve`, `sortie_planches`).
 
@@ -76,7 +107,7 @@ app/
 components/
   Fx.jsx            révélations, compteurs, mesure du scroll et des clics
   MicroEngagement   la question unique du hero
-  Formulaire.jsx    le questionnaire en deux écrans + écran de succès avec Cal embarqué
+  Formulaire.jsx    le questionnaire en trois écrans + écran de succès avec Cal embarqué
   Video.jsx         Bunny en click-to-play
   BarreFlottante    CTA mobile
   Schema.jsx        FIG. 01, la ligne d'arbitrage

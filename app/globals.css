@@ -227,3 +227,32 @@ p{margin:0 0 1.15em;max-width:68ch;color:#D7E0EB}
 .pied{background:var(--encre);border-top:1px solid var(--trait);padding:var(--bloc) 0}
 .pied p{font-size:14px;color:var(--gris-bas);max-width:70ch}
 .pied a{color:var(--gris);text-decoration:underline;text-underline-offset:4px}
+
+/* ——————— Questionnaire : aide en clair et cases à cocher ——————— */
+.champ .aide{display:block;font-family:var(--body);font-size:13.5px;letter-spacing:0;text-transform:none;color:var(--gris-bas);margin:-.3em 0 .9em;line-height:1.45;max-width:62ch}
+.champ label{margin-bottom:.55em}
+.cases{display:grid;gap:10px}
+.case{display:flex;align-items:flex-start;gap:.85em;border:1px solid var(--trait);border-radius:var(--r);padding:.85em 1em;background:rgba(255,255,255,.02);cursor:pointer;transition:border-color .16s ease,background .16s ease}
+.case:hover{border-color:var(--rose-30);background:var(--rose-14)}
+.case.on{border-color:var(--rose);background:var(--rose-14)}
+.case input{appearance:none;width:16px;height:16px;flex:0 0 16px;margin-top:.28em;border:1px solid var(--trait-fort);border-radius:2px;background:transparent;cursor:pointer}
+.case.on input{background:var(--rose);border-color:var(--rose);box-shadow:inset 0 0 0 2px var(--encre)}
+.case span{font-size:15.3px;line-height:1.45;color:#D7E0EB}
+.etape-titre{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--rose);margin:0 0 -.4em}
+.compteur-mots{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--gris-bas);text-align:right;margin:.5em 0 0}
+
+/* ——————— Questions conditionnelles ——————— */
+.conditionnelle{border-left:2px solid var(--rose);padding-left:1.3em;margin-top:.4em;animation:ouvrir .32s cubic-bezier(.2,.7,.3,1)}
+@keyframes ouvrir{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.conditionnelle .repere{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--rose);text-transform:uppercase;display:block;margin-bottom:.7em}
+
+/* ——————— Récapitulatif avant envoi : la pièce de closing ——————— */
+.recap{border:1px solid var(--rose-30);border-radius:var(--r);background:rgba(232,93,138,.06);padding:clamp(22px,2.6vw,34px);margin-bottom:.4em}
+.recap .entete-recap{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--rose);display:block;margin-bottom:1.2em}
+.recap .phrase{font-family:var(--display);font-weight:600;font-size:clamp(18px,2.1vw,24px);line-height:1.34;letter-spacing:-.018em;color:#fff;margin:0 0 1.2em;max-width:52ch}
+.recap .phrase em{font-style:normal;color:var(--rose)}
+.recap .lecture{font-size:15px;color:#C6D2E0;margin:0 0 1.4em;max-width:62ch}
+.recap .lignes{display:grid;gap:.5em;border-top:1px solid var(--trait);padding-top:1.2em}
+.recap .l{display:flex;justify-content:space-between;gap:1.2em;font-size:14px;color:var(--gris);flex-wrap:wrap}
+.recap .l b{color:var(--texte);font-weight:500;font-family:var(--mono);font-size:12.5px;text-align:right}
+.recap .modifier{margin-top:1.3em}
