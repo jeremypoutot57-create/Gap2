@@ -4,6 +4,8 @@ import MicroEngagement from "../components/MicroEngagement";
 import Formulaire from "../components/Formulaire";
 import BarreFlottante from "../components/BarreFlottante";
 import Schema from "../components/Schema";
+import { FigTrajet, FigCalendrier, FigDecennie } from "../components/Figures";
+import { Progression, Sommaire } from "../components/Chrome";
 import { SCENES, LIVRABLES, AVIS, FAQ, PRENONS, REFUSONS, POSTES } from "../components/donnees";
 import { jsonLd } from "../components/jsonld";
 
@@ -19,6 +21,18 @@ export default function Page() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Fx />
+      <Progression />
+      <Sommaire
+        entrees={[
+          ["constat", "Le constat"],
+          ["scenes", "Vous reconnaîtrez"],
+          ["perimetres", "Le problème"],
+          ["methode", "La méthode"],
+          ["preuve", "La preuve"],
+          ["selectivite", "Sélectivité"],
+          ["dossier", "Ouvrir mon dossier"],
+        ]}
+      />
 
       <div className="page">
         <header className="entete-site">
@@ -57,6 +71,12 @@ export default function Page() {
               <a className="btn btn--fantome" href={CAL} data-ev="cta_cal_hero">
                 Ou en parler 30 minutes
               </a>
+            </div>
+
+            <div className="rassure reveal">
+              <span>Réponse d&apos;un humain sous 2 h ouvrées</span>
+              <span>Aucun produit à vous vendre</span>
+              <span>Plan écrit remis au 30ᵉ jour</span>
             </div>
 
             <div className="cartouche reveal" style={{ marginTop: "2.4rem" }}>
@@ -124,7 +144,7 @@ export default function Page() {
         </section>
 
         {/* 04 · LE CONSTAT */}
-        <section data-cote="02" className="sombre">
+        <section id="constat" data-cote="02" className="sombre">
           <div className="wrap wrap--etroit">
             <span className="eyebrow reveal">Le constat</span>
             <h2 className="reveal">
@@ -165,7 +185,7 @@ export default function Page() {
         </section>
 
         {/* 05 · SCÈNES MIROIR */}
-        <section data-cote="03">
+        <section id="scenes" data-cote="03">
           <div className="wrap">
             <span className="eyebrow reveal">Vous reconnaîtrez peut-être</span>
             <h2 className="reveal">Cinq phrases que nous entendons chaque semaine</h2>
@@ -189,7 +209,7 @@ export default function Page() {
         </section>
 
         {/* 06 · PÉRIMÈTRES */}
-        <section data-cote="04" className="sombre">
+        <section id="perimetres" data-cote="04" className="sombre">
           <div className="wrap">
             <span className="eyebrow reveal">Le vrai problème</span>
             <h2 className="reveal">Chacun sa pièce, et personne dans le couloir</h2>
@@ -199,6 +219,10 @@ export default function Page() {
               leurs périmètres ne se touchent pas. C&apos;est cette ligne que Cap. trace.
             </p>
             <Schema />
+
+            <div style={{ marginTop: "18px" }}>
+              <FigTrajet />
+            </div>
           </div>
         </section>
 
@@ -283,7 +307,7 @@ export default function Page() {
         </section>
 
         {/* 09 · MÉTHODE */}
-        <section data-cote="07">
+        <section id="methode" data-cote="07">
           <div className="wrap">
             <span className="eyebrow reveal">La méthode</span>
             <h2 className="reveal">Trois temps, trente jours, un plan écrit</h2>
@@ -333,6 +357,10 @@ export default function Page() {
                   <span className="chip chip--vert">Sortie : le plan signé</span>
                 </div>
               </div>
+            </div>
+
+            <div style={{ marginTop: "18px" }}>
+              <FigCalendrier />
             </div>
           </div>
         </section>
@@ -387,7 +415,7 @@ export default function Page() {
         </section>
 
         {/* 12 · ANATOMIE DU GAIN */}
-        <section data-cote="10" className="sombre">
+        <section id="preuve" data-cote="10" className="sombre">
           <div className="wrap">
             <span className="eyebrow reveal">La preuve</span>
             <h2 className="reveal">30 000 € la première année : on démonte le chiffre</h2>
@@ -450,6 +478,10 @@ export default function Page() {
                 </p>
               </div>
             </div>
+            <div style={{ marginTop: "18px" }}>
+              <FigDecennie />
+            </div>
+
             <div className="actions reveal">
               <a className="btn btn--primaire" href="#dossier" data-ev="cta_apres_preuve">
                 Voir ce que ça donne chez moi <span className="fl">→</span>
@@ -502,7 +534,7 @@ export default function Page() {
         </section>
 
         {/* 14 · SÉLECTIVITÉ */}
-        <section data-cote="12" className="sombre">
+        <section id="selectivite" data-cote="12" className="sombre">
           <div className="wrap">
             <span className="eyebrow reveal">Sélectivité</span>
             <h2 className="reveal">Huit dossiers par mois, et nous choisissons lesquels</h2>
@@ -512,6 +544,9 @@ export default function Page() {
               séances avec vous. Au-delà de huit, la qualité tombe. Nous préférons refuser un dossier
               que le traiter à moitié.
             </p>
+            <div className="accroche reveal">
+              <p>Un dossier qui ne récupère rien nous coûte plus cher qu&apos;il ne vous coûte.</p>
+            </div>
             <p className="reveal">
               Nous refusons aussi les dossiers où nous ne serions pas impactants, même quand le
               dirigeant est prêt à payer. Un accompagnement qui ne récupère rien vous coûte de

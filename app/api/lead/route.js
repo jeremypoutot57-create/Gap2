@@ -142,7 +142,7 @@ async function envoyerCopie({ titre, description, p, temperature }) {
         from: exp,
         to: dest,
         reply_to: p.email,
-        subject: `[${temperature}] ${titre}`,
+        subject: `[${temperature}] ${identite} — ${p.statut || "dirigeant"}`,
         html,
         text: description,
       }),
@@ -189,6 +189,8 @@ export async function POST(request) {
     cout: txt(d?.cout),
     tentative: txt(d?.tentative),
     reussite: txt(d?.reussite),
+    prenom: txt(d?.prenom),
+    nom: txt(d?.nom),
     email: txt(d?.email),
     telephone: txt(d?.telephone),
     precision: txt(d?.precision),
@@ -201,10 +203,12 @@ export async function POST(request) {
   const { note, temperature, alertes } = evaluer(p);
   const dominant = PRIORITE.find((k) => p.declencheurs.includes(k));
 
-  const titre = `CAP · ${temperature} · ${p.statut || "statut inconnu"} · ${p.remuneration || "rémunération inconnue"}`;
+  const identite = [p.prenom, p.nom.toUpperCase()].filter(Boolean).join(" ") || "Contact sans nom";
+  const titre = `${identite} · CAP ${temperature} · ${p.statut || "statut inconnu"}`;
 
   const description = [
     "———— BRIEF D'APPEL ————",
+    `Interlocuteur : ${identite}`,
     `Température : ${temperature} (score ${note})`,
     dominant ? `Ouvrir par : « ${ACCROCHES[dominant]} »` : "Ouvrir par : aucun déclencheur dominant, faire parler d'abord.",
     "",
@@ -237,6 +241,7 @@ export async function POST(request) {
     `Quelqu'un s'en occupe aujourd'hui : ${p.suivi}`,
     "",
     "———— CONTACT ————",
+    `Nom : ${identite}`,
     `E-mail : ${p.email}`,
     `Téléphone : ${p.telephone}`,
     "",
@@ -245,8 +250,12 @@ export async function POST(request) {
     .filter((l) => l !== "" && l !== null)
     .join("\n");
 
-  const sousDomaine = process.env.NOCRM_SUBDOMAIN;
-  const cle = process.env.NOCRM_API_KEY;
+  const sousDomaine = (process.env.NOCRM_SUBDOMAIN || "")
+    .trim()
+    .replace(/^https?:\/\//, "")
+    .replace(/\.nocrm\.io.*$/, "")
+    .replace(/\/$/, "");
+  const cle = (process.env.NOCRM_API_KEY || "").trim();
 
   // La copie mail part toujours, que noCRM réponde ou non.
   const copie = envoyerCopie({ titre, description, p, temperature });
@@ -266,7 +275,13 @@ export async function POST(request) {
         title: titre,
         description,
         tags: ["CAP", "landing", temperature, p.statut, dominant ? "declencheur:" + dominant : null].filter(Boolean),
-        client: { email: p.email, phone: p.telephone },
+        client: {
+          name: identite,
+          first_name: p.prenom,
+          last_name: p.nom,
+          email: p.email,
+          phone: p.telephone,
+        },
       }),
     });
     if (!r.ok) {
@@ -287,7 +302,41 @@ export async function POST(request) {
 
 // —— Diagnostic : ouvrir https://cap.arras-patrimoine.fr/api/lead dans le navigateur. ——
 // Ne révèle aucune valeur, seulement la présence des variables.
-export async function GET() {
+export async function GET(request) {
+  const brute = process.env.NOCRM_API_KEY || "";
+  const cle = brute.trim();
+  const sous = (process.env.NOCRM_SUBDOMAIN || "")
+    .trim()
+    .replace(/^https?:\/\//, "")
+    .replace(/\.nocrm\.io.*$/, "")
+    .replace(/\/$/, "");
+
+  // ?test=1 tente un appel réel à noCRM pour isoler la cause du refus.
+  if (new URL(request.url).searchParams.get("test") === "1") {
+    const url = `https://${sous}.nocrm.io/api/v2/leads?limit=1`;
+    let statut = null;
+    let reponse = null;
+    try {
+      const r = await fetch(url, { headers: { "X-API-KEY": cle } });
+      statut = r.status;
+      reponse = (await r.text()).slice(0, 300);
+    } catch (e) {
+      reponse = String(e);
+    }
+    return Response.json({
+      url_appelee: url,
+      statut_noCRM: statut,
+      reponse_noCRM: reponse,
+      cle: {
+        longueur: cle.length,
+        debut: cle.slice(0, 4),
+        fin: cle.slice(-4),
+        espaces_parasites: brute !== cle,
+      },
+      sous_domaine_nettoye: sous,
+    });
+  }
+
   return Response.json({
     route: "opérationnelle",
     version: "v4",

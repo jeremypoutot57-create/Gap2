@@ -19,6 +19,8 @@ const VIDE = {
   cout: "",
   tentative: "",
   reussite: "",
+  prenom: "",
+  nom: "",
   email: "",
   telephone: "",
   precision: "",
@@ -114,7 +116,9 @@ export default function Formulaire() {
   };
 
   if (etat === "succes") {
-    const sujet = encodeURIComponent("Dossier Cap. — " + (d.statut || "dirigeant"));
+    const sujet = encodeURIComponent(
+      "Dossier Cap. — " + [d.prenom, d.nom].filter(Boolean).join(" ") + (d.statut ? " · " + d.statut : "")
+    );
     const corps = encodeURIComponent(
       [
         "Rémunération annuelle : " + d.remuneration,
@@ -152,7 +156,7 @@ export default function Formulaire() {
             </>
           ) : (
             <>
-              <h3>Votre fiche est arrivée chez nous.</h3>
+              <h3>{d.prenom ? d.prenom + ", votre fiche est arrivée chez nous." : "Votre fiche est arrivée chez nous."}</h3>
               <p>
                 Nous l&apos;avons lue en entier, ce n&apos;est pas un formulaire automatique. Jérémy
                 ou Marie-Amélie vous répond sous deux heures ouvrées, personnellement, en reprenant
@@ -500,6 +504,33 @@ export default function Formulaire() {
 
           <div className="duo">
             <div className="champ">
+              <label htmlFor="ch-prenom">Prénom</label>
+              <input
+                id="ch-prenom"
+                type="text"
+                autoComplete="given-name"
+                required
+                placeholder="Jean"
+                value={d.prenom}
+                onChange={maj("prenom")}
+              />
+            </div>
+            <div className="champ">
+              <label htmlFor="ch-nom">Nom</label>
+              <input
+                id="ch-nom"
+                type="text"
+                autoComplete="family-name"
+                required
+                placeholder="Dupont"
+                value={d.nom}
+                onChange={maj("nom")}
+              />
+            </div>
+          </div>
+
+          <div className="duo">
+            <div className="champ">
               <label htmlFor="ch-email">E-mail</label>
               <input
                 id="ch-email"
@@ -541,7 +572,7 @@ export default function Formulaire() {
             <button
               className="btn btn--primaire"
               type="button"
-              onClick={() => aller(4, ["email", "telephone"])}
+              onClick={() => aller(4, ["prenom", "nom", "email", "telephone"])}
             >
               Voir ce que nous avons compris <span className="fl">→</span>
             </button>
@@ -557,7 +588,9 @@ export default function Formulaire() {
           <p className="etape-titre">Ce que nous avons compris</p>
 
           <div className="recap">
-            <span className="entete-recap">Votre situation, telle que nous la lisons</span>
+            <span className="entete-recap">
+              {d.prenom ? d.prenom + ", votre situation telle que nous la lisons" : "Votre situation, telle que nous la lisons"}
+            </span>
             <p className="phrase">{phraseRecap(d)}</p>
             <p className="lecture">
               Si cette phrase est juste, c&apos;est déjà un point de départ : la plupart des
