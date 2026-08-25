@@ -6,12 +6,10 @@ import BarreFlottante from "../components/BarreFlottante";
 import Schema from "../components/Schema";
 import { FigTrajet, FigCalendrier, FigDecennie } from "../components/Figures";
 import { Progression, Sommaire } from "../components/Chrome";
-import { SCENES, LIVRABLES, AVIS, FAQ, PRENONS, REFUSONS, POSTES } from "../components/donnees";
+import { SCENES, LIVRABLES, AVIS, FAQ, PRENONS, REFUSONS } from "../components/donnees";
 import { jsonLd } from "../components/jsonld";
 
 const CAL = process.env.NEXT_PUBLIC_CAL_URL || "https://cal.com/arras-patrimoine/decouverte-rem";
-const MOIS = process.env.NEXT_PUBLIC_MOIS_COURANT || "[LOCK — à tenir à jour]";
-const OUVERTURE = process.env.NEXT_PUBLIC_PROCHAINE_OUVERTURE || "[LOCK]";
 
 export default function Page() {
   return (
@@ -74,6 +72,7 @@ export default function Page() {
             </div>
 
             <div className="rassure reveal">
+              <span>Estimation chiffrée en 2 minutes, sans coordonnées</span>
               <span>Réponse d&apos;un humain sous 2 h ouvrées</span>
               <span>Aucun produit à vous vendre</span>
               <span>Plan écrit remis au 30ᵉ jour</span>
@@ -395,13 +394,14 @@ export default function Page() {
             </span>
             <h2 className="reveal">Deux façons de commencer</h2>
             <p className="lead reveal">
-              Si votre situation est claire dans votre tête, remplissez la fiche : nous vous disons
-              sous deux heures ouvrées si votre dossier relève de nous. Si vous préférez en parler
-              d&apos;abord, prenez trente minutes, sans engagement et sans présentation commerciale.
+              Répondez à cinq questions et vous obtenez immédiatement une fourchette chiffrée de ce
+              que vous laissez probablement passer chaque année. Aucune coordonnée demandée à ce
+              stade. Si vous préférez en parler d&apos;abord, prenez trente minutes, sans engagement
+              et sans présentation commerciale.
             </p>
             <div className="actions reveal">
               <a className="btn btn--primaire" href="#dossier" data-ev="cta_milieu">
-                Faire examiner ma situation <span className="fl">→</span>
+                Estimer ce que je laisse passer <span className="fl">→</span>
               </a>
               <a className="btn btn--fantome" href={CAL} data-ev="cta_cal_milieu">
                 Réserver 30 minutes
@@ -418,66 +418,86 @@ export default function Page() {
         <section id="preuve" data-cote="10" className="sombre">
           <div className="wrap">
             <span className="eyebrow reveal">La preuve</span>
-            <h2 className="reveal">30 000 € la première année : on démonte le chiffre</h2>
+            <h2 className="reveal">Un dossier réel, démonté devant vous</h2>
             <p className="reponse reveal">
-              Un chiffre qu&apos;on répète est un argument. Un chiffre qu&apos;on ouvre devant vous,
-              ligne par ligne, est une preuve. Voici donc d&apos;où viennent ces 30 000 €, ce qui a
-              bougé dans ce dossier, et surtout ce que nous n&apos;avons pas touché.
+              Un chiffre qu&apos;on répète est un argument. Un chiffre qu&apos;on ouvre ligne à ligne
+              est une preuve. Voici donc un dossier de cabinet, anonymisé : ce que nous avons trouvé,
+              ce que nous avons déplacé, et ce que nous n&apos;avons pas touché.
             </p>
+
             <div className="fiche reveal" style={{ marginTop: "2.4rem" }}>
               <table className="anat">
                 <caption>
-                  Dossier CAP-2026 · dirigeant de PME · [LOCK secteur et tranche de CA]
+                  Dossier anonymisé · dirigeant d&apos;un groupe de quatre entités · holding,
+                  deux sociétés d&apos;exploitation, une SCI
                 </caption>
                 <thead>
                   <tr>
-                    <th>Poste arbitré</th>
+                    <th>Ce que nous avons arbitré</th>
                     <th>Avant</th>
                     <th>Après</th>
-                    <th style={{ textAlign: "right" }}>Effet sur 12 mois</th>
+                    <th style={{ textAlign: "right" }}>Effet</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {POSTES.map((p) => (
-                    <tr key={p}>
-                      <td>{p}</td>
-                      <td className="gris">[LOCK]</td>
-                      <td className="gris">[LOCK]</td>
-                      <td className="n">[LOCK]</td>
-                    </tr>
-                  ))}
+                  <tr>
+                    <td>Forme de la holding et statut du dirigeant</td>
+                    <td className="gris">Société par actions, dirigeant assimilé salarié</td>
+                    <td className="gris">Passage en gérance travailleur non salarié</td>
+                    <td className="n">Coût du même net divisé</td>
+                  </tr>
+                  <tr>
+                    <td>Remontée des résultats des filiales</td>
+                    <td className="gris">Dividendes remontés sans régime</td>
+                    <td className="gris">Régime mère-fille activé</td>
+                    <td className="n">Frottement quasi supprimé</td>
+                  </tr>
+                  <tr>
+                    <td>Compte courant d&apos;associé</td>
+                    <td className="gris">Sommes laissées, non rémunérées</td>
+                    <td className="gris">Convention écrite, intérêts servis</td>
+                    <td className="n">Revenu supplémentaire</td>
+                  </tr>
+                  <tr>
+                    <td>Calibrage des charges de la holding</td>
+                    <td className="gris">Résultat imposé sans pilotage</td>
+                    <td className="gris">Holding tenue proche du point mort</td>
+                    <td className="n">Base imposable maîtrisée</td>
+                  </tr>
                   <tr className="total">
-                    <td colSpan={3}>Gain net constaté sur la première année</td>
+                    <td colSpan={3}>Ordre de grandeur récupéré sur la première année</td>
                     <td className="n">30 000 €</td>
                   </tr>
                 </tbody>
               </table>
               <p style={{ marginTop: "1.7em", color: "var(--gris-bas)", fontSize: "14.5px" }}>
-                Ce que nous n&apos;avons pas touché dans ce dossier : la structure juridique, le
-                statut social du dirigeant, la trésorerie de la société. Aucun produit financier
-                n&apos;a été souscrit. Aucun schéma n&apos;a été créé pour l&apos;occasion.
+                Ce que nous n&apos;avons pas touché : l&apos;activité, les contrats commerciaux, la
+                trésorerie d&apos;exploitation. Aucun produit financier n&apos;a été souscrit et
+                aucune structure n&apos;a été créée pour l&apos;occasion. Chaque décision a été
+                actée par écrit avec son fondement, puis passée par l&apos;expert-comptable du
+                groupe.
               </p>
             </div>
+
             <div className="grille-2 reveal" style={{ marginTop: "18px" }}>
               <div className="fiche fiche--neutre">
-                <span className="num">CE QUE ÇA VEUT DIRE</span>
+                <span className="num">Ce que ça veut dire</span>
                 <p>
-                  Ce dirigeant récupère chaque année, sans travailler davantage et sans vendre quoi
-                  que ce soit. Ce n&apos;est pas un gain exceptionnel lié à une opération : c&apos;est
-                  une correction de trajectoire, donc elle se reproduit tous les ans tant que la
-                  situation ne change pas.
+                  Aucune de ces décisions n&apos;est exotique. Prises séparément, elles sont
+                  banales. C&apos;est leur combinaison et leur ordre qui produisent le résultat, et
+                  c&apos;est exactement ce que personne n&apos;avait le mandat de faire.
                 </p>
               </div>
               <div className="fiche fiche--neutre">
-                <span className="num">CE QUE ÇA NE VEUT PAS DIRE</span>
+                <span className="num">Ce que ça ne veut pas dire</span>
                 <p>
                   Que ce sera votre chiffre. Certains dossiers dégagent moins, quelques-uns
                   davantage, et un sur cinq se conclut par « ne changez rien ». Nous ne promettons
-                  aucun montant avant d&apos;avoir ouvert votre dossier, et nous refusons de le
-                  faire.
+                  aucun montant avant d&apos;avoir ouvert votre dossier.
                 </p>
               </div>
             </div>
+
             <div style={{ marginTop: "18px" }}>
               <FigDecennie />
             </div>
@@ -490,6 +510,10 @@ export default function Page() {
                 Ou en parler trente minutes
               </a>
             </div>
+            <p className="micro reveal">
+              Deux minutes de questions, et vous obtenez une première estimation chiffrée avant même
+              de nous laisser vos coordonnées.
+            </p>
           </div>
         </section>
 
@@ -571,12 +595,10 @@ export default function Page() {
               </div>
             </div>
             <div className="capacite reveal">
-              <span>ÉTAT DE LA CAPACITÉ</span>
+              <span>RÈGLE DE CAPACITÉ</span>
               <span>
-                Mois en cours de constitution : <b>{MOIS}</b>
-              </span>
-              <span>
-                Prochaine ouverture : <b>{OUVERTURE}</b>
+                Les huit dossiers du mois partis, nous décalons au mois suivant et{" "}
+                <b>nous vous le disons dès la réponse</b>, plutôt que de vous faire patienter.
               </span>
             </div>
           </div>
@@ -621,11 +643,7 @@ export default function Page() {
             <div className="gens reveal" style={{ marginTop: "2.4rem" }}>
               <div className="p">
                 {/* Remplacer par <img src="/jeremy.jpg" alt="Jérémy Poutot" className="ph" /> */}
-                <div className="ph">
-                  [LOCK]
-                  <br />
-                  PHOTO
-                </div>
+                <div className="ph mono">JP</div>
                 <div>
                   <h4>Jérémy Poutot</h4>
                   <span className="role">Fondateur · arbitrage</span>
@@ -638,11 +656,7 @@ export default function Page() {
                 </div>
               </div>
               <div className="p">
-                <div className="ph">
-                  [LOCK]
-                  <br />
-                  PHOTO
-                </div>
+                <div className="ph mono">MA</div>
                 <div>
                   <h4>Marie-Amélie</h4>
                   <span className="role">Pôle ingénierie · construction</span>
@@ -707,6 +721,50 @@ export default function Page() {
           </div>
         </section>
 
+        {/* 18 bis · CE QUE DONNE L'APPEL */}
+        <section data-cote="16b">
+          <div className="wrap">
+            <span className="eyebrow reveal">Sans engagement</span>
+            <h2 className="reveal">Ce que vous repartez avec après trente minutes</h2>
+            <p className="reponse reveal">
+              L&apos;échange de découverte n&apos;est pas une présentation commerciale. Nous ouvrons
+              votre situation à voix haute et vous repartez avec trois choses, que vous travailliez
+              avec nous ensuite ou non.
+            </p>
+            <div className="grille-3 reveal" style={{ marginTop: "2.4rem" }}>
+              <div className="fiche">
+                <span className="num">01</span>
+                <h3>Un avis franc</h3>
+                <p>
+                  Est-ce qu&apos;il y a un levier chez vous, oui ou non. Si la réponse est non, vous
+                  l&apos;entendrez pendant l&apos;appel, pas après avoir signé.
+                </p>
+              </div>
+              <div className="fiche">
+                <span className="num">02</span>
+                <h3>Un ordre de grandeur</h3>
+                <p>
+                  Ce que votre situation laisse probablement passer chaque année, avec la fourchette
+                  et surtout ce qui la fait varier.
+                </p>
+              </div>
+              <div className="fiche">
+                <span className="num">03</span>
+                <h3>Le prix, dit à voix haute</h3>
+                <p>
+                  Nous vous annonçons le tarif de la mission pendant l&apos;échange. Pas de
+                  proposition envoyée trois jours plus tard, pas de relance.
+                </p>
+              </div>
+            </div>
+            <div className="rassure reveal" style={{ marginTop: "2rem" }}>
+              <span>30 minutes, en visio</span>
+              <span>Aucun document à préparer</span>
+              <span>Aucune relance si vous ne donnez pas suite</span>
+            </div>
+          </div>
+        </section>
+
         {/* 19 · QUESTIONNAIRE */}
         <section data-cote="17" id="dossier">
           <div className="wrap wrap--etroit">
@@ -715,10 +773,11 @@ export default function Page() {
             </span>
             <h2 className="reveal">Faites examiner votre situation</h2>
             <p className="reponse reveal">
-              Sept questions, deux minutes, en deux étapes. Elles servent à savoir si votre dossier
-              relève de nous, pas à alimenter une base de prospection. Une personne du cabinet vous
-              répond sous deux heures ouvrées, et si votre situation ne relève pas de Cap., nous vous
-              le disons dans le même délai en vous indiquant vers quoi vous tourner.
+              Douze questions, trois minutes, en quatre étapes. Elles servent à savoir si votre dossier
+              relève de nous, pas à alimenter une base de prospection. Dès la deuxième étape, avant
+              toute coordonnée, vous verrez apparaître une fourchette chiffrée de l&apos;écart annuel
+              que nous irions chercher chez vous. Ensuite, une personne du cabinet vous répond sous
+              deux heures ouvrées.
             </p>
             <Formulaire />
           </div>

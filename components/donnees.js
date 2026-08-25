@@ -62,12 +62,43 @@ export const REFUSONS = [
   "Un dirigeant qui veut déléguer la décision plutôt que la prendre",
 ];
 
-export const POSTES = [
-  "Répartition salaire et dividendes",
-  "Compte courant d'associé",
-  "Frais et avantages pris en charge",
-  "Prévoyance et retraite",
-];
+/* Cas réel anonymisé — dirigeant d'un groupe à quatre entités.
+   Aucun nom, aucun montant par poste : la ventilation chiffrée se remet en séance. */
+export const CAS = {
+  intitule: "Dirigeant d'un groupe de quatre entités · holding, deux sociétés d'exploitation, une SCI",
+  postes: [
+    [
+      "Forme de la holding et statut du dirigeant",
+      "Société par actions, dirigeant assimilé salarié",
+      "Holding transformée, gérance travailleur non salarié",
+      "Le coût de chaque euro versé change de barème",
+    ],
+    [
+      "Remontée des résultats des filiales",
+      "Résultats bloqués dans chaque société",
+      "Régime mère-fille activé sur les deux exploitations",
+      "Les résultats circulent sans être taxés deux fois",
+    ],
+    [
+      "Compte courant d'associé",
+      "Argent laissé dans la société, sans convention",
+      "Compte courant rémunéré, convention écrite",
+      "Une somme déjà prêtée produit enfin un revenu",
+    ],
+    [
+      "Distribution et calibrage",
+      "Dividendes votés en fin d'exercice, au jugé",
+      "Distribution pilotée, tenue sous le seuil des 10 %",
+      "Le même montant sort à un coût différent",
+    ],
+  ],
+  intacts: [
+    "Aucune société n'a été créée pour l'occasion",
+    "Aucun produit financier n'a été souscrit",
+    "L'activité, les contrats et les salariés n'ont pas bougé",
+    "Chaque décision a été validée par l'expert-comptable du groupe",
+  ],
+};
 
 /* ——— Questionnaire : matière de closing ——————————————————————————— */
 

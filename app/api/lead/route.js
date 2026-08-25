@@ -191,6 +191,7 @@ export async function POST(request) {
     reussite: txt(d?.reussite),
     prenom: txt(d?.prenom),
     nom: txt(d?.nom),
+    societe: txt(d?.societe),
     email: txt(d?.email),
     telephone: txt(d?.telephone),
     precision: txt(d?.precision),
@@ -204,11 +205,11 @@ export async function POST(request) {
   const dominant = PRIORITE.find((k) => p.declencheurs.includes(k));
 
   const identite = [p.prenom, p.nom.toUpperCase()].filter(Boolean).join(" ") || "Contact sans nom";
-  const titre = `${identite} · CAP ${temperature} · ${p.statut || "statut inconnu"}`;
+  const titre = `${identite}${p.societe ? " — " + p.societe : ""} · CAP ${temperature}`;
 
   const description = [
     "———— BRIEF D'APPEL ————",
-    `Interlocuteur : ${identite}`,
+    `Interlocuteur : ${identite}${p.societe ? " — " + p.societe : ""}`,
     `Température : ${temperature} (score ${note})`,
     dominant ? `Ouvrir par : « ${ACCROCHES[dominant]} »` : "Ouvrir par : aucun déclencheur dominant, faire parler d'abord.",
     "",
@@ -237,6 +238,7 @@ export async function POST(request) {
     `Rémunération annuelle (salaire + dividendes) : ${p.remuneration}`,
     `Composition : ${p.composition}`,
     `Statut : ${p.statut}`,
+    `Société : ${p.societe || "non renseignée"}`,
     `Chiffre d'affaires : ${p.ca}`,
     `Quelqu'un s'en occupe aujourd'hui : ${p.suivi}`,
     "",
@@ -279,6 +281,7 @@ export async function POST(request) {
           name: identite,
           first_name: p.prenom,
           last_name: p.nom,
+          organization: p.societe,
           email: p.email,
           phone: p.telephone,
         },

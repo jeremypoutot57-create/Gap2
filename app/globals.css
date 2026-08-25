@@ -159,8 +159,10 @@ p{margin:0 0 1.2em;max-width:66ch;color:#CFDAE7}
 @media(max-width:880px){.avis{grid-template-columns:1fr}}
 
 .gens{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-.gens .p{display:grid;grid-template-columns:112px 1fr;gap:20px;align-items:start;border:1px solid var(--trait);border-radius:var(--r);padding:clamp(20px,2.2vw,28px);background:rgba(16,30,51,.4)}
-.gens .ph{width:112px;height:132px;border:1px solid var(--trait-fort);border-radius:2px;background:repeating-linear-gradient(135deg,rgba(255,255,255,.03) 0 8px,transparent 8px 16px),var(--encre);display:grid;place-items:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--gris-bas);text-align:center;padding:8px}
+.gens .p{display:grid;grid-template-columns:128px 1fr;gap:20px;align-items:start;border:1px solid var(--trait);border-radius:var(--r);padding:clamp(20px,2.2vw,28px);background:rgba(16,30,51,.4)}
+.gens .ph{width:128px;height:160px;object-fit:cover;object-position:top center;border-radius:var(--r-s);
+  background:linear-gradient(180deg,rgba(232,93,138,.16),rgba(16,30,51,.7));
+  border:1px solid var(--trait);display:block}
 .gens h4{margin-bottom:.3em}
 .gens .role{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--rose);text-transform:uppercase;display:block;margin-bottom:1em}
 .gens p{font-size:14.8px;color:var(--gris);margin:0}
@@ -224,7 +226,7 @@ p{margin:0 0 1.2em;max-width:66ch;color:#CFDAE7}
 
 .flottant{position:fixed;left:16px;right:16px;bottom:16px;z-index:40;display:none;flex-direction:column;gap:.5em;align-items:stretch}
 .flottant .btn{width:100%;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,.45)}
-.flottant .rappel{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-align:center;color:var(--gris-bas);background:rgba(7,14,25,.9);padding:.4em;border-radius:var(--r)}
+.flottant .rappel{font-family:var(--body);font-size:12px;letter-spacing:0;text-align:center;color:#C6D2E0;background:rgba(7,14,25,.92);padding:.55em;border-radius:var(--r-s);border:1px solid var(--trait)}
 @media(max-width:640px){.flottant{display:flex}.flottant.cache{display:none}}
 
 .hero{padding-top:clamp(50px,7vw,90px);padding-bottom:clamp(36px,4.5vw,58px);border-top:0}
@@ -309,3 +311,64 @@ p{margin:0 0 1.2em;max-width:66ch;color:#CFDAE7}
 .rassure{display:flex;gap:1.6em;flex-wrap:wrap;align-items:center;margin-top:1.6em}
 .rassure span{display:inline-flex;align-items:center;gap:.5em;font-family:var(--body);font-size:13.5px;color:var(--gris)}
 .rassure span::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--vert)}
+
+/* Bouton de son sur la vidéo en lecture automatique */
+.piece .son{position:absolute;left:16px;bottom:16px;z-index:3;display:inline-flex;align-items:center;gap:.6em;
+  font-family:var(--body);font-size:14px;font-weight:600;color:#170A10;background:var(--rose);
+  border:0;border-radius:100px;padding:.7em 1.15em;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.4);
+  transition:transform .18s ease,background .18s ease}
+.piece .son:hover{background:#F2749B;transform:translateY(-1px)}
+.piece .son .ico{display:inline-flex}
+
+/* Monogrammes en attendant les photographies */
+.gens .ph.mono{font-family:var(--display);font-weight:700;font-size:34px;letter-spacing:-.04em;
+  color:var(--rose);background:linear-gradient(160deg,rgba(232,93,138,.16),rgba(7,14,25,.9));
+  border-color:var(--rose-30);border-radius:var(--r-s)}
+
+/* ——————— Estimation en direct ——————— */
+.estim{border:1px solid var(--rose-30);border-radius:var(--r);background:linear-gradient(180deg,rgba(232,93,138,.10),rgba(232,93,138,.03));padding:clamp(20px,2.6vw,30px);animation:ouvrir .35s cubic-bezier(.2,.7,.3,1)}
+.estim .t{font-family:var(--body);font-size:13.5px;color:#F2C4D5;margin:0 0 .7em;letter-spacing:0}
+.estim .n{font-family:var(--display);font-weight:700;font-size:clamp(26px,3.4vw,40px);line-height:1.05;letter-spacing:-.03em;color:#fff;margin:0}
+.estim .n em{font-style:normal;color:var(--rose)}
+.estim .s{font-family:var(--body);font-size:14px;color:var(--gris);margin:.9em 0 0;line-height:1.55;max-width:60ch}
+.estim .dix{display:flex;gap:.6em;align-items:baseline;margin-top:1.1em;font-family:var(--body);font-size:14px;color:#C6D2E0}
+.estim .dix b{font-family:var(--display);font-weight:600;font-size:19px;color:#fff;letter-spacing:-.02em}
+.estim--hors{border-color:var(--trait-fort);background:rgba(255,255,255,.03)}
+.estim--hors .n{font-size:clamp(19px,2.2vw,24px)}
+
+/* ——————— Casse normale partout dans le tunnel ——————— */
+.form .entete,.etape-titre,.ensuite .t,.recap .entete-recap,.fiche .num,.livrables .n,.gens .role,.avis .qui{text-transform:none}
+.form .entete{font-family:var(--body);font-size:13px;letter-spacing:0;color:var(--gris)}
+.etape-titre{font-family:var(--body);font-size:13.5px;font-weight:600;letter-spacing:0;color:var(--rose)}
+.ensuite .t{font-family:var(--body);font-size:12.5px;font-weight:600;letter-spacing:0;color:var(--rose)}
+.recap .entete-recap{font-family:var(--body);font-size:13.5px;letter-spacing:0;color:var(--rose)}
+.fiche .num,.livrables .n{font-family:var(--body);font-size:13px;letter-spacing:0;color:var(--gris-bas);font-weight:500}
+.gens .role{font-family:var(--body);font-size:13.5px;letter-spacing:0}
+.avis .qui{font-family:var(--body);font-size:13px;letter-spacing:0}
+.case span{font-size:15.5px}
+
+/* ——————— Vidéo en lecture automatique ——————— */
+.piece{position:relative;border:1px solid var(--trait);border-radius:var(--r);overflow:hidden;background:var(--encre);aspect-ratio:16/9;box-shadow:0 30px 70px rgba(0,0,0,.42)}
+.piece iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.piece .son{position:absolute;left:16px;bottom:16px;z-index:2;display:inline-flex;align-items:center;gap:.6em;
+  font-family:var(--body);font-size:14px;font-weight:600;color:#170A10;background:var(--rose);
+  border:0;border-radius:100px;padding:.7em 1.15em;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.4);transition:transform .18s ease,background .18s ease}
+.piece .son:hover{background:#F2749B;transform:translateY(-1px)}
+.piece .son .pastille{display:grid;place-items:center;color:#170A10}
+
+/* Bouton d'activation du son sur la vidéo en lecture automatique */
+.piece .son{position:absolute;left:16px;bottom:16px;z-index:3;display:inline-flex;align-items:center;gap:.6em;
+  font-family:var(--body);font-size:14px;font-weight:600;color:#170A10;background:var(--rose);
+  border:0;border-radius:100px;padding:.7em 1.15em;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.4);
+  animation:pulseSon 2.4s ease-in-out infinite}
+.piece .son:hover{background:#F2749B;animation:none}
+@keyframes pulseSon{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+
+/* Jalons d'étape du questionnaire */
+.jalons{display:flex;gap:.4em;margin-top:.9em;flex-wrap:wrap}
+.jalon{font-family:var(--body);font-size:12.5px;letter-spacing:0;text-transform:none;color:var(--gris-bas);
+  background:transparent;border:0;padding:.2em .1em;cursor:default;position:relative;transition:color .2s ease}
+.jalon:not(:last-child)::after{content:"›";margin-left:.55em;color:var(--trait-fort)}
+.jalon.fait{color:var(--gris);cursor:pointer}
+.jalon.fait:hover{color:var(--rose)}
+.jalon.actif{color:#fff;font-weight:600}

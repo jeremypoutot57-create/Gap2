@@ -70,6 +70,7 @@ export function phraseRecap(d) {
 export function lignesRecap(d) {
   return [
     ["Nom", [d.prenom, d.nom].filter(Boolean).join(" ")],
+    ["Société", d.societe],
     ["Rémunération annuelle", d.remuneration],
     ["Composition", d.composition],
     ["Statut", d.statut],

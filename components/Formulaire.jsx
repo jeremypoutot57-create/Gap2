@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { ev } from "./mesure";
+import { estimer, fmt } from "./estimation";
 import { DECLENCHEURS, ECHEANCES, COUTS, TENTATIVES, CONDITIONNELLES, SOUHAITS } from "./donnees";
 import { phraseRecap, lignesRecap } from "./recapitulatif";
 
@@ -21,6 +22,7 @@ const VIDE = {
   reussite: "",
   prenom: "",
   nom: "",
+  societe: "",
   email: "",
   telephone: "",
   precision: "",
@@ -34,6 +36,20 @@ export default function Formulaire() {
   const [echec, setEchec] = useState(false);
   const demarre = useRef(false);
   const bloc = useRef(null);
+
+  // Les réponses survivent à un rechargement : personne ne recommence de zéro.
+  useEffect(() => {
+    try {
+      const brut = sessionStorage.getItem("cap:fiche");
+      if (brut) setD((x) => ({ ...x, ...JSON.parse(brut) }));
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    try {
+      sessionStorage.setItem("cap:fiche", JSON.stringify(d));
+    } catch {}
+  }, [d]);
 
   useEffect(() => {
     const surTranche = (e) => setD((x) => ({ ...x, remuneration: e.detail }));
@@ -80,7 +96,9 @@ export default function Formulaire() {
     const absent = requis.find((c) => (Array.isArray(d[c]) ? d[c].length === 0 : !d[c]));
     if (absent) {
       setManque(absent);
-      document.getElementById("ch-" + absent)?.scrollIntoView({ behavior: "smooth", block: "center" });
+      const el = document.getElementById("ch-" + absent);
+      el?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => el?.focus?.(), 400);
       return;
     }
     setEtape(cible);
@@ -226,6 +244,19 @@ export default function Formulaire() {
         </div>
         <div className="jauge">
           <i style={{ width: etape * 25 + "%" }} />
+        </div>
+        <div className="jalons">
+          {["Situation", "Ce qui vous amène", "Coordonnées", "Vérification"].map((nom, i) => (
+            <button
+              key={nom}
+              type="button"
+              className={"jalon" + (etape === i + 1 ? " actif" : etape > i + 1 ? " fait" : "")}
+              onClick={() => (i + 1 < etape ? setEtape(i + 1) : null)}
+              disabled={i + 1 > etape}
+            >
+              {nom}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -466,6 +497,41 @@ export default function Formulaire() {
             </div>
           </div>
 
+          {(() => {
+            const e = estimer(d);
+            if (!e) return null;
+            if (e.horsCible)
+              return (
+                <div className="estim estim--hors">
+                  <p className="t">Ce que nous voyons déjà</p>
+                  <p className="n">En dessous de 150 000 € de chiffre d&apos;affaires, le levier n&apos;existe pas encore.</p>
+                  <p className="s">
+                    Nous préférons vous le dire maintenant plutôt qu&apos;après vous avoir facturé.
+                    Vous pouvez tout de même envoyer votre fiche : nous vous indiquerons par écrit
+                    ce qu&apos;il faut regarder à la place, et à partir de quand nous reparler.
+                  </p>
+                </div>
+              );
+            return (
+              <div className="estim">
+                <p className="t">Première estimation, à partir de vos réponses</p>
+                <p className="n">
+                  Sur un dossier comme le vôtre, l&apos;écart annuel se situe généralement{" "}
+                  <em>entre {fmt(e.bas)} et {fmt(e.haut)}</em>.
+                </p>
+                <div className="dix">
+                  <span>Sur dix ans, sans rien faire de plus :</span>
+                  <b>{fmt(e.dix[0])} à {fmt(e.dix[1])}</b>
+                </div>
+                <p className="s">
+                  Fourchette indicative calculée sur trois de vos réponses, sans avoir vu vos
+                  comptes. Elle ne vaut pas engagement : un dossier sur cinq se conclut par « ne
+                  changez rien », et nous vous le dirons par écrit si c&apos;est le vôtre.
+                </p>
+              </div>
+            );
+          })()}
+
           <div style={{ display: "flex", gap: "1.2em", alignItems: "center", flexWrap: "wrap" }}>
             <button
               className="btn btn--primaire"
@@ -529,6 +595,23 @@ export default function Formulaire() {
             </div>
           </div>
 
+          <div className="champ">
+            <label htmlFor="ch-societe">Nom de votre société</label>
+            <span className="aide">
+              Celle qui vous verse votre rémunération. S&apos;il y en a plusieurs, indiquez la
+              principale, nous verrons les autres ensemble.
+            </span>
+            <input
+              id="ch-societe"
+              type="text"
+              autoComplete="organization"
+              required
+              placeholder="Dupont & Fils"
+              value={d.societe}
+              onChange={maj("societe")}
+            />
+          </div>
+
           <div className="duo">
             <div className="champ">
               <label htmlFor="ch-email">E-mail</label>
@@ -572,7 +655,7 @@ export default function Formulaire() {
             <button
               className="btn btn--primaire"
               type="button"
-              onClick={() => aller(4, ["prenom", "nom", "email", "telephone"])}
+              onClick={() => aller(4, ["prenom", "nom", "societe", "email", "telephone"])}
             >
               Voir ce que nous avons compris <span className="fl">→</span>
             </button>
@@ -597,6 +680,17 @@ export default function Formulaire() {
               dirigeants ne l&apos;ont jamais vue écrite. Si elle est fausse quelque part, corrigez
               avant d&apos;envoyer, c&apos;est elle que nous lirons en premier.
             </p>
+            {(() => {
+              const e = estimer(d);
+              if (!e || e.horsCible) return null;
+              return (
+                <p className="lecture" style={{ color: "#F2C4D5" }}>
+                  Sur cette base, l&apos;écart annuel que nous irions chercher se situe entre{" "}
+                  {fmt(e.bas)} et {fmt(e.haut)}. C&apos;est ce chiffre que la mission vérifie, poste
+                  par poste, sur vos comptes réels.
+                </p>
+              );
+            })()}
             <div className="lignes">
               {lignesRecap(d).map(([k, v]) => (
                 <div className="l" key={k}>

@@ -17,9 +17,9 @@ export default function BarreFlottante() {
 
   return (
     <div className={"flottant" + (cache ? " cache" : "")}>
-      <span className="rappel">20 À 30 K€ PAR AN, C&apos;EST L&apos;ÉCART MOYEN CONSTATÉ</span>
+      <span className="rappel">Estimation chiffrée en 2 minutes, sans coordonnées</span>
       <a className="btn btn--primaire" href="#dossier" data-ev="cta_flottant">
-        Faire examiner ma situation <span className="fl">→</span>
+        Estimer ce que je laisse passer <span className="fl">→</span>
       </a>
     </div>
   );
