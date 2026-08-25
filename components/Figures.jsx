@@ -5,7 +5,7 @@ export function FigTrajet() {
     <div className="figure reveal">
       <div className="fig-titre">
         <b>FIG. 02</b>
-        <span>Le trajet de l&apos;euro, de la société jusqu&apos;à vous</span>
+        <span>Sur 100 € produits, ce qui arrive vraiment chez vous</span>
       </div>
       <svg className="plan" viewBox="0 0 900 330" role="img" aria-label="Trajet d'un euro produit par la société jusqu'au foyer du dirigeant, avec les points de fuite">
         <rect className="socle" x="20" y="40" width="180" height="76" rx="8" />
@@ -15,7 +15,7 @@ export function FigTrajet() {
 
         <path className="flux" d="M200 78 H320" />
         <path className="fuite" d="M260 78 V150" />
-        <text className="txt-s" x="228" y="172">charges sociales</text>
+        <text className="txt-s" x="216" y="172">1ʳᵉ fuite : les charges</text>
 
         <rect className="socle" x="320" y="40" width="180" height="76" rx="8" />
         <text className="val" x="340" y="72">≈ 62 €</text>
@@ -24,7 +24,7 @@ export function FigTrajet() {
 
         <path className="flux" d="M500 78 H620" />
         <path className="fuite" d="M560 78 V150" />
-        <text className="txt-s" x="524" y="172">impôt du foyer</text>
+        <text className="txt-s" x="512" y="172">2ᵉ fuite : l&apos;impôt du foyer</text>
 
         <rect className="socle-rose" x="620" y="40" width="180" height="76" rx="8" />
         <text className="val val-rose" x="640" y="72">≈ 44 €</text>
@@ -32,7 +32,7 @@ export function FigTrajet() {
         <text className="txt-s" x="640" y="110">réellement disponibles</text>
 
         <line className="axe" x1="20" y1="212" x2="880" y2="212" />
-        <text className="txt" x="20" y="240">Ce que Cap. déplace</text>
+        <text className="lbl" x="20" y="240">Ce que Cap. déplace sur ce trajet</text>
         <path className="flux-rose" d="M20 262 H880" strokeDasharray="8 6" />
         <text className="txt-s" x="20" y="288">La forme, la source, le moment et le montant de ce que vous vous versez.</text>
         <text className="txt-s" x="20" y="306">Chaque décision est ordinaire. C&apos;est leur combinaison qui change le résultat.</text>
@@ -57,7 +57,7 @@ export function FigCalendrier() {
     <div className="figure reveal">
       <div className="fig-titre">
         <b>FIG. 03</b>
-        <span>Trente jours, jalon par jalon</span>
+        <span>Ce qui se passe, semaine après semaine</span>
       </div>
       <svg className="plan" viewBox="0 0 900 250" role="img" aria-label="Calendrier de la mission sur trente jours">
         {[0, 10, 20, 30].map((j) => (
@@ -103,11 +103,10 @@ export function FigDecennie() {
         <line className="flux" x1="60" y1="250" x2="840" y2="250" strokeDasharray="6 5" />
         <text className="txt-s" x="66" y="268">Aujourd&apos;hui</text>
         <text className="txt-s" x="770" y="268">Dans 10 ans</text>
-        <text className="val val-rose" x="600" y="70">Écart cumulé</text>
-        <text className="txt" x="600" y="92">Une correction annuelle</text>
-        <text className="txt" x="600" y="110">ne se produit pas une fois.</text>
-        <text className="txt" x="600" y="128">Elle se répète.</text>
-        <text className="txt-s" x="66" y="238">Trajectoire inchangée</text>
+        <text className="val val-rose" x="88" y="56">L&apos;écart se cumule</text>
+        <text className="txt" x="88" y="80">Une correction annuelle ne se produit pas une seule fois.</text>
+        <text className="txt" x="88" y="100">Elle se répète chaque année.</text>
+        <text className="txt-s" x="600" y="242">Sans rien changer</text>
       </svg>
       <p className="fig-note">
         La courbe illustre un principe, pas une promesse : un écart annuel corrigé se reproduit tant

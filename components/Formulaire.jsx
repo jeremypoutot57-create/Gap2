@@ -52,6 +52,16 @@ export default function Formulaire() {
   }, [d]);
 
   useEffect(() => {
+    const surPrefill = (e) => {
+      setD((x) => ({ ...x, ...e.detail }));
+      setEtape(2);
+      ev("form_etape2", { origine: "hero" });
+    };
+    window.addEventListener("cap:prefill", surPrefill);
+    return () => window.removeEventListener("cap:prefill", surPrefill);
+  }, []);
+
+  useEffect(() => {
     const surTranche = (e) => setD((x) => ({ ...x, remuneration: e.detail }));
     window.addEventListener("cap:tranche", surTranche);
     return () => window.removeEventListener("cap:tranche", surTranche);
@@ -375,6 +385,13 @@ export default function Formulaire() {
 
         {/* ——— ÉTAPE 2 ——— */}
         <div className={"ecran" + (etape === 2 ? " on" : "")}>
+          {d.remuneration && d.statut && d.ca ? (
+            <p className="deja">
+              Vous nous avez dit : <b>{d.statut}</b>, <b>{d.ca}</b> de chiffre d&apos;affaires,{" "}
+              <b>{d.remuneration.toLowerCase()}</b> par an.{" "}
+              <button type="button" className="lien" onClick={() => setEtape(1)}>Corriger</button>
+            </p>
+          ) : null}
           <p className="etape-titre">Ce qui vous amène</p>
 
           <div className="champ" id="ch-declencheurs">

@@ -1,6 +1,6 @@
 import Fx from "../components/Fx";
 import Video from "../components/Video";
-import MicroEngagement from "../components/MicroEngagement";
+import HeroForm from "../components/HeroForm";
 import Formulaire from "../components/Formulaire";
 import BarreFlottante from "../components/BarreFlottante";
 import Schema from "../components/Schema";
@@ -42,101 +42,46 @@ export default function Page() {
               <span className="par">par Arras Patrimoine</span>
             </div>
             <a className="btn btn--primaire" href="#dossier" data-ev="cta_header">
-              Faire examiner ma situation <span className="fl">→</span>
+              Voir si mon dossier passe <span className="fl">→</span>
             </a>
           </div>
         </header>
 
         {/* 01 · HERO */}
         <section className="hero">
-          <div className="wrap">
-            <span className="eyebrow reveal">Stratégie de rémunération du dirigeant</span>
-            <h1 className="reveal">
-              Votre société produit.
-              <br />
-              Vous, vous récupérez <span className="surligne">ce qui reste</span>.
-            </h1>
-            <p className="lead reveal" style={{ marginTop: "1.4em" }}>
-              Entre ce que la société génère et ce qui arrive réellement chez vous, il y a un chemin.
-              Personne ne l&apos;a jamais dessiné pour vous. Chacun de vos interlocuteurs fait bien
-              son travail, dans sa pièce, sans voir les autres. C&apos;est dans les couloirs entre ces
-              pièces que partent vingt à trente mille euros par an.
-            </p>
-
-            <MicroEngagement />
-
-            <div className="actions reveal">
-              <a className="btn btn--fantome" href={CAL} data-ev="cta_cal_hero">
-                Ou en parler 30 minutes
-              </a>
+          <div className="wrap hero-grid">
+            <div>
+              <div className="pour-qui reveal">
+                <i>✓</i> Pour les dirigeants de PME entre <b>150 k€ et 5 M€</b> de chiffre d&apos;affaires
+              </div>
+              <h1 className="reveal">
+                Vous vous payez sûrement <span className="rose">plus cher que nécessaire</span>.
+              </h1>
+              <p className="promesse reveal">
+                Cap. audite la façon dont vous vous rémunérez, arbitre avec vous, et vous remet
+                un plan écrit en <b>30 jours</b>. Ordre de grandeur constaté sur nos dossiers :{" "}
+                <b>20 à 30 000 € par an</b> récupérés, sans montage et sans produit à vous vendre.
+              </p>
+              <HeroForm />
+              <p className="hero-secondaire reveal">
+                Vous préférez en parler ?{" "}
+                <a href={CAL} data-ev="cta_cal_hero">Réservez 30 minutes avec Jérémy</a>, sans engagement.
+              </p>
             </div>
 
-            <div className="rassure reveal">
-              <span>Estimation chiffrée en 2 minutes, sans coordonnées</span>
-              <span>Réponse d&apos;un humain sous 2 h ouvrées</span>
-              <span>Aucun produit à vous vendre</span>
-              <span>Plan écrit remis au 30ᵉ jour</span>
-            </div>
-
-            <div className="cartouche reveal" style={{ marginTop: "2.4rem" }}>
-              <div>
-                <span>Mission</span>
-                <b>CAP · RÉMUNÉRATION</b>
+            <div className="hero-droite reveal">
+              <Video />
+              <div className="preuves">
+                <div className="preuve"><b>30 000 €</b><span>récupérés la 1ʳᵉ année sur un dossier récent</span></div>
+                <div className="preuve"><b>30 jours</b><span>du premier échange au plan signé</span></div>
+                <div className="preuve"><b>8</b><span>dossiers acceptés par mois, pas un de plus</span></div>
               </div>
-              <div>
-                <span>Délai</span>
-                <b>30 jours</b>
-              </div>
-              <div>
-                <span>Capacité</span>
-                <b className="ok">8 dossiers / mois</b>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 02 · VIDÉO */}
-        <section style={{ borderTop: 0, paddingTop: 0 }}>
-          <div className="wrap">
-            <Video />
-          </div>
-        </section>
-
-        {/* 03 · INDICATEURS */}
-        <section data-cote="01">
-          <div className="wrap">
-            <div className="indics reveal">
-              <div>
-                <div className="val">
-                  <span data-cible="30000" data-suffixe=" €">0 €</span>
+              <div className="avis-mini">
+                <span className="et">★★★★★</span>
+                <div>
+                  <p>Conseil, expertise, professionnalisme. Une société orientée solution, où le mot problème devient challenge.</p>
+                  <small>Mathieu F. · dirigeant et professionnel libéral · avis Google</small>
                 </div>
-                <span className="lab">Récupérés la première année</span>
-                <p className="note">
-                  Dossier réel de dirigeant de PME. Gain net constaté sur douze mois, charges et
-                  impôt déduits. Le détail est déplié plus bas, poste par poste.
-                </p>
-              </div>
-              <div>
-                <div className="val">
-                  <span data-cible="30">0</span>
-                  <span className="u">jours</span>
-                </div>
-                <span className="lab">Du premier échange au plan signé</span>
-                <p className="note">
-                  Délai maximum d&apos;engagement, pas une moyenne commerciale. Passé ce délai, vous
-                  avez votre plan écrit.
-                </p>
-              </div>
-              <div>
-                <div className="val">
-                  <span data-cible="8">0</span>
-                  <span className="u">/ mois</span>
-                </div>
-                <span className="lab">Dossiers acceptés</span>
-                <p className="note">
-                  Nous refusons ceux où nous ne serions pas utiles. Les critères de refus sont écrits
-                  noir sur blanc plus bas.
-                </p>
               </div>
             </div>
           </div>
@@ -273,7 +218,7 @@ export default function Page() {
             </p>
             <div className="grille-2 reveal" style={{ marginTop: "2.4rem" }}>
               <div className="fiche fiche--neutre">
-                <span className="num">CE QUE NOUS NE FAISONS PAS</span>
+                <span className="num">Ce que nous ne faisons pas</span>
                 <h3>Le montage</h3>
                 <p>
                   Une structure créée pour l&apos;effet qu&apos;elle produit, et pas pour ce
@@ -288,7 +233,7 @@ export default function Page() {
                 </p>
               </div>
               <div className="fiche">
-                <span className="num">CE QUE NOUS FAISONS</span>
+                <span className="num">Ce que nous faisons</span>
                 <h3>La stratégie</h3>
                 <p>
                   Décider ce que vous vous versez, sous quelle forme, depuis quelle entité, à quel
@@ -318,7 +263,7 @@ export default function Page() {
             </p>
             <div className="grille-3 reveal" style={{ marginTop: "2.4rem" }}>
               <div className="fiche">
-                <span className="num">TEMPS 1 · JOURS 1 À 10</span>
+                <span className="num">Temps 1 · jours 1 à 10</span>
                 <h3>Auditer</h3>
                 <p>
                   Nous ouvrons tout : statuts, liasses des trois derniers exercices, contrats de
@@ -331,7 +276,7 @@ export default function Page() {
                 </div>
               </div>
               <div className="fiche">
-                <span className="num">TEMPS 2 · JOURS 11 À 20</span>
+                <span className="num">Temps 2 · jours 11 à 20</span>
                 <h3>Arbitrer</h3>
                 <p>
                   Nous construisons deux ou trois scénarios chiffrés jusqu&apos;à l&apos;euro et nous
@@ -344,7 +289,7 @@ export default function Page() {
                 </div>
               </div>
               <div className="fiche fiche--vert">
-                <span className="num">TEMPS 3 · JOURS 21 À 30</span>
+                <span className="num">Temps 3 · jours 21 à 30</span>
                 <h3>Documenter</h3>
                 <p>
                   Nous écrivons le plan : ce qui change, dans quel ordre, avec quel calendrier, sur
@@ -530,7 +475,7 @@ export default function Page() {
             </p>
             <div className="grille-3 reveal" style={{ marginTop: "2.4rem" }}>
               <div className="fiche fiche--neutre">
-                <span className="num">VERROU 01</span>
+                <span className="num">Premier verrou</span>
                 <h3>Aucun produit maison</h3>
                 <p>
                   Nous ne fabriquons rien, donc nous n&apos;avons rien à vous vendre. Si votre plan
@@ -538,7 +483,7 @@ export default function Page() {
                 </p>
               </div>
               <div className="fiche fiche--neutre">
-                <span className="num">VERROU 02</span>
+                <span className="num">Deuxième verrou</span>
                 <h3>La mission est payée par vous</h3>
                 <p>
                   Notre seule rémunération sur cette mission vient de vous. Personne d&apos;autre ne
@@ -546,7 +491,7 @@ export default function Page() {
                 </p>
               </div>
               <div className="fiche fiche--neutre">
-                <span className="num">VERROU 03</span>
+                <span className="num">Troisième verrou</span>
                 <h3>Aucune promesse de rendement</h3>
                 <p>
                   Nous chiffrons des écarts constatés sur votre situation. Nous ne projetons pas de
@@ -595,7 +540,7 @@ export default function Page() {
               </div>
             </div>
             <div className="capacite reveal">
-              <span>RÈGLE DE CAPACITÉ</span>
+              <span>Règle de capacité</span>
               <span>
                 Les huit dossiers du mois partis, nous décalons au mois suivant et{" "}
                 <b>nous vous le disons dès la réponse</b>, plutôt que de vous faire patienter.
@@ -669,7 +614,7 @@ export default function Page() {
               </div>
             </div>
             <div className="fiche fiche--neutre reveal" style={{ marginTop: "18px" }}>
-              <span className="num">AUTOUR D&apos;EUX</span>
+              <span className="num">Autour d&apos;eux</span>
               <p>
                 Cap. est l&apos;offre de stratégie de rémunération d&apos;Arras Patrimoine, cabinet
                 d&apos;ingénierie patrimoniale installé à Arras et intervenant partout en France en
@@ -787,7 +732,7 @@ export default function Page() {
         <section data-cote="18" className="sombre">
           <div className="wrap wrap--etroit">
             <div className="fiche fiche--neutre reveal">
-              <span className="num">SI CE N&apos;EST PAS LE MOMENT</span>
+              <span className="num">Si ce n&apos;est pas le moment</span>
               <h3>Prenez le temps, tout est expliqué gratuitement</h3>
               <p>
                 Arras Patrimoine publie Les Planches : des fiches complètes, avec schémas et

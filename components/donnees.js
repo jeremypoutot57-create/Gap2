@@ -22,12 +22,12 @@ export const SCENES = [
 ];
 
 export const LIVRABLES = [
-  ["PIÈCE 01", "La cartographie de départ", "Toutes vos entités, tous vos flux, tous vos contrats sur une seule page. La plupart de nos clients la découvrent pour la première fois ici."],
-  ["PIÈCE 02", "Le chiffrage de l'écart", "Ce que vous laissez sur la table aujourd'hui, poste par poste, sur douze mois et sur dix ans."],
-  ["PIÈCE 03", "Les scénarios arbitrés", "Deux ou trois chemins possibles, chiffrés jusqu'à l'euro, avec ce que chacun coûte et ce qu'il ferme comme porte."],
-  ["PIÈCE 04", "Le plan retenu", "Vos décisions, dans l'ordre, avec le calendrier de l'année et les fondements juridiques cités."],
-  ["PIÈCE 05", "Les écritures à passer", "La note destinée à votre expert-comptable : ce qu'il doit acter, quand, et sous quelle forme."],
-  ["PIÈCE 06", "Le point de contrôle", "Ce qu'il faudra vérifier dans douze mois, et les trois signaux qui devront vous faire rouvrir le dossier."],
+  ["Pièce 01", "La cartographie de départ", "Toutes vos entités, tous vos flux, tous vos contrats sur une seule page. La plupart de nos clients la découvrent pour la première fois ici."],
+  ["Pièce 02", "Le chiffrage de l'écart", "Ce que vous laissez sur la table aujourd'hui, poste par poste, sur douze mois et sur dix ans."],
+  ["Pièce 03", "Les scénarios arbitrés", "Deux ou trois chemins possibles, chiffrés jusqu'à l'euro, avec ce que chacun coûte et ce qu'il ferme comme porte."],
+  ["Pièce 04", "Le plan retenu", "Vos décisions, dans l'ordre, avec le calendrier de l'année et les fondements juridiques cités."],
+  ["Pièce 05", "Les écritures à passer", "La note destinée à votre expert-comptable : ce qu'il doit acter, quand, et sous quelle forme."],
+  ["Pièce 06", "Le point de contrôle", "Ce qu'il faudra vérifier dans douze mois, et les trois signaux qui devront vous faire rouvrir le dossier."],
 ];
 
 export const AVIS = [
