@@ -1,46 +1,42 @@
-/* Schémas de la page. Aucun label ne sort de sa boîte : 12 px maximum, 26 caractères par ligne. */
+/* Schémas de la page. Une idée par figure, pas plus. */
 
 export function FigTrajet() {
+  const etapes = [
+    ["100 €", "produits par la société", false],
+    ["≈ 62 €", "après les charges", false],
+    ["≈ 44 €", "réellement chez vous", true],
+  ];
   return (
     <div className="figure reveal">
       <div className="fig-titre">
-        <b>FIG. 02</b>
-        <span>Sur 100 € produits, ce qui arrive vraiment chez vous</span>
+        <b>Sur 100 € produits, ce qui arrive vraiment chez vous</b>
+        <span>Illustration de principe, le vrai chiffre dépend de votre dossier</span>
       </div>
-      <svg className="plan" viewBox="0 0 900 330" role="img" aria-label="Trajet d'un euro produit par la société jusqu'au foyer du dirigeant, avec les points de fuite">
-        <rect className="socle" x="20" y="40" width="180" height="76" rx="8" />
-        <text className="val" x="40" y="72">100 €</text>
-        <text className="txt" x="40" y="94">produits</text>
-        <text className="txt-s" x="40" y="110">par la société</text>
-
-        <path className="flux" d="M200 78 H320" />
-        <path className="fuite" d="M260 78 V150" />
-        <text className="txt-s" x="216" y="172">1ʳᵉ fuite : les charges</text>
-
-        <rect className="socle" x="320" y="40" width="180" height="76" rx="8" />
-        <text className="val" x="340" y="72">≈ 62 €</text>
-        <text className="txt" x="340" y="94">après charges</text>
-        <text className="txt-s" x="340" y="110">sur le chemin choisi</text>
-
-        <path className="flux" d="M500 78 H620" />
-        <path className="fuite" d="M560 78 V150" />
-        <text className="txt-s" x="512" y="172">2ᵉ fuite : l&apos;impôt du foyer</text>
-
-        <rect className="socle-rose" x="620" y="40" width="180" height="76" rx="8" />
-        <text className="val val-rose" x="640" y="72">≈ 44 €</text>
-        <text className="txt" x="640" y="94">chez vous</text>
-        <text className="txt-s" x="640" y="110">réellement disponibles</text>
-
-        <line className="axe" x1="20" y1="212" x2="880" y2="212" />
-        <text className="lbl" x="20" y="240">Ce que Cap. déplace sur ce trajet</text>
-        <path className="flux-rose" d="M20 262 H880" strokeDasharray="8 6" />
-        <text className="txt-s" x="20" y="288">La forme, la source, le moment et le montant de ce que vous vous versez.</text>
-        <text className="txt-s" x="20" y="306">Chaque décision est ordinaire. C&apos;est leur combinaison qui change le résultat.</text>
+      <svg className="plan" viewBox="0 0 900 190" role="img" aria-label="Trajet simplifié d'un euro produit jusqu'au foyer du dirigeant">
+        {etapes.map(([val, txt, rose], i) => {
+          const x = 24 + i * 316;
+          return (
+            <g key={val}>
+              <rect className={rose ? "socle-rose" : "socle"} x={x} y="30" width="220" height="92" rx="12" />
+              <text className={"val" + (rose ? " val-rose" : "")} x={x + 24} y="72" fontSize="30">{val}</text>
+              <text className="txt" x={x + 24} y="102">{txt}</text>
+              {i < 2 ? (
+                <>
+                  <line className="flux" x1={x + 220} y1="76" x2={x + 316} y2="76" />
+                  <path d={`M${x + 308} 70 L${x + 316} 76 L${x + 308} 82`} className="flux" />
+                  <text className="txt-s" x={x + 268} y="150" textAnchor="middle" fill="#E0A94B">
+                    {i === 0 ? "charges sociales" : "impôt du foyer"}
+                  </text>
+                  <line className="fuite" x1={x + 268} y1="90" x2={x + 268} y2="130" />
+                </>
+              ) : null}
+            </g>
+          );
+        })}
       </svg>
       <p className="fig-note">
-        Illustration de principe, volontairement simplifiée. Les proportions réelles dépendent de
-        votre statut, de votre foyer et de la structure de votre groupe : c&apos;est précisément ce
-        que la mission mesure sur vos chiffres.
+        Cap. ne change pas ce que la société produit. Il change la forme, la source et le moment de
+        ce que vous vous versez : c&apos;est là que se joue l&apos;écart entre 44 et davantage.
       </p>
     </div>
   );
@@ -48,69 +44,53 @@ export function FigTrajet() {
 
 export function FigCalendrier() {
   const temps = [
-    ["Auditer", 0, 10, "var(--trait-fort)"],
-    ["Arbitrer", 10, 20, "var(--rose)"],
-    ["Documenter", 20, 30, "var(--vert)"],
+    ["Auditer", 0, 10, "rgba(255,255,255,.28)"],
+    ["Arbitrer", 10, 20, "#E85D8A"],
+    ["Documenter", 20, 30, "#4FB286"],
   ];
-  const x = (j) => 90 + (j / 30) * 740;
+  const x = (j) => 90 + (j / 30) * 760;
   return (
     <div className="figure reveal">
       <div className="fig-titre">
-        <b>FIG. 03</b>
-        <span>Ce qui se passe, semaine après semaine</span>
+        <b>Trente jours, trois temps</b>
+        <span>Trois à quatre heures de votre côté, le reste chez nous</span>
       </div>
-      <svg className="plan" viewBox="0 0 900 250" role="img" aria-label="Calendrier de la mission sur trente jours">
+      <svg className="plan" viewBox="0 0 900 170" role="img" aria-label="Calendrier de la mission sur trente jours">
         {[0, 10, 20, 30].map((j) => (
           <g key={j}>
-            <line className="axe" x1={x(j)} y1="34" x2={x(j)} y2="196" />
-            <text className="txt-s" x={x(j) - 12} y="222">{"J" + j}</text>
+            <line className="axe" x1={x(j)} y1="20" x2={x(j)} y2="128" strokeDasharray="2 4" />
+            <text className="txt-s" x={x(j)} y="152" textAnchor="middle">{"Jour " + j}</text>
           </g>
         ))}
-        {temps.map(([nom, d, f, couleur], i) => (
+        {temps.map(([nom, d, f, c], i) => (
           <g key={nom}>
-            <rect x={x(d)} y={54 + i * 46} width={x(f) - x(d)} height="30" rx="6" fill={couleur} opacity={i === 1 ? 0.9 : 0.55} />
-            <text className="txt" x={x(d) + 14} y={74 + i * 46} fill="#0C1626" fontWeight="600">{nom}</text>
-            <text className="txt-s" x="20" y={74 + i * 46}>{"Temps " + (i + 1)}</text>
+            <rect x={x(d) + 4} y={30 + i * 34} width={x(f) - x(d) - 8} height="26" rx="6" fill={c} />
+            <text className="txt" x={x(d) + 16} y={48 + i * 34} fill="#0C1626" fontWeight="600">{nom}</text>
           </g>
         ))}
-        <text className="txt-s" x={x(0)} y="182">Collecte et mesure</text>
-        <text className="txt-s" x={x(10)} y="182">Séance d&apos;arbitrage</text>
-        <text className="txt-s" x={x(20)} y="182">Rédaction et remise</text>
       </svg>
-      <p className="fig-note">
-        Vous intervenez trois à quatre heures au total, réparties sur le mois. Le reste du travail se
-        fait chez nous.
-      </p>
     </div>
   );
 }
 
-export function FigDecennie() {
-  const pts = [];
-  for (let a = 0; a <= 10; a++) pts.push([60 + a * 78, 240 - a * 19]);
-  const chemin = pts.map((p, i) => (i ? "L" : "M") + p[0] + " " + p[1]).join(" ");
+// Remplace la courbe sur dix ans : deux barres, une lecture immédiate.
+export function Repetition() {
   return (
-    <div className="figure reveal">
-      <div className="fig-titre">
-        <b>FIG. 04</b>
-        <span>Pourquoi une année corrigée compte dix fois</span>
+    <div className="repetition reveal">
+      <div className="rep-l">
+        <span>Première année</span>
+        <div className="rep-b"><i style={{ width: "10%" }} /></div>
+        <b>30 000 €</b>
       </div>
-      <svg className="plan" viewBox="0 0 900 300" role="img" aria-label="Écart cumulé entre une trajectoire corrigée et une trajectoire inchangée sur dix ans">
-        <line className="axe" x1="60" y1="250" x2="860" y2="250" />
-        <line className="axe" x1="60" y1="30" x2="60" y2="250" />
-        <path d={chemin + " L840 250 L60 250 Z"} fill="var(--rose-14)" />
-        <path className="flux-rose" d={chemin} />
-        <line className="flux" x1="60" y1="250" x2="840" y2="250" strokeDasharray="6 5" />
-        <text className="txt-s" x="66" y="268">Aujourd&apos;hui</text>
-        <text className="txt-s" x="770" y="268">Dans 10 ans</text>
-        <text className="val val-rose" x="88" y="56">L&apos;écart se cumule</text>
-        <text className="txt" x="88" y="80">Une correction annuelle ne se produit pas une seule fois.</text>
-        <text className="txt" x="88" y="100">Elle se répète chaque année.</text>
-        <text className="txt-s" x="600" y="242">Sans rien changer</text>
-      </svg>
-      <p className="fig-note">
-        La courbe illustre un principe, pas une promesse : un écart annuel corrigé se reproduit tant
-        que la situation ne change pas. Le montant, lui, dépend entièrement de votre dossier.
+      <div className="rep-l">
+        <span>Sur dix ans, si rien ne change</span>
+        <div className="rep-b"><i style={{ width: "100%" }} /></div>
+        <b>300 000 €</b>
+      </div>
+      <p>
+        Une correction de trajectoire ne rapporte pas une fois : elle se répète chaque année tant que
+        la situation reste la même. C&apos;est pour ça qu&apos;un dossier vaut d&apos;être regardé
+        maintenant plutôt que l&apos;an prochain.
       </p>
     </div>
   );

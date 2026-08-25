@@ -4,9 +4,9 @@ import HeroForm from "../components/HeroForm";
 import Formulaire from "../components/Formulaire";
 import BarreFlottante from "../components/BarreFlottante";
 import Schema from "../components/Schema";
-import { FigTrajet, FigCalendrier, FigDecennie } from "../components/Figures";
+import { FigTrajet, FigCalendrier, Repetition } from "../components/Figures";
 import { Progression, Sommaire } from "../components/Chrome";
-import { SCENES, LIVRABLES, AVIS, FAQ, PRENONS, REFUSONS } from "../components/donnees";
+import { SCENES, LIVRABLES, AVIS, FAQ, PRENONS, REFUSONS, CAS, NOTE_GOOGLE } from "../components/donnees";
 import { jsonLd } from "../components/jsonld";
 
 const CAL = process.env.NEXT_PUBLIC_CAL_URL || "https://cal.com/arras-patrimoine/decouverte-rem";
@@ -70,61 +70,72 @@ export default function Page() {
             </div>
 
             <div className="hero-droite reveal">
-              <Video />
-              <div className="preuves">
-                <div className="preuve"><b>30 000 €</b><span>récupérés la 1ʳᵉ année sur un dossier récent</span></div>
-                <div className="preuve"><b>30 jours</b><span>du premier échange au plan signé</span></div>
-                <div className="preuve"><b>8</b><span>dossiers acceptés par mois, pas un de plus</span></div>
-              </div>
-              <div className="avis-mini">
-                <span className="et">★★★★★</span>
-                <div>
-                  <p>Conseil, expertise, professionnalisme. Une société orientée solution, où le mot problème devient challenge.</p>
-                  <small>Mathieu F. · dirigeant et professionnel libéral · avis Google</small>
+              <div style={{ position: "relative" }}>
+                <Video />
+                <div className="etiquette-video">
+                  <b>Jérémy Poutot</b>
+                  <span>Fondateur · 12 ans de pratique</span>
                 </div>
               </div>
+              <div className="preuves">
+                <div className="preuve"><b><span data-cible="30000" data-suffixe=" €">0 €</span></b><span>récupérés la 1ʳᵉ année sur un dossier récent</span></div>
+                <div className="preuve"><b><span data-cible="30">0</span> jours</b><span>du premier échange au plan signé</span></div>
+                <div className="preuve"><b><span data-cible="8">0</span></b><span>dossiers acceptés par mois, pas un de plus</span></div>
+              </div>
+              <a className="avis-mini" href={NOTE_GOOGLE.lien} target="_blank" rel="noopener noreferrer" data-ev="clic_avis_google">
+                <span className="note-g"><b>{NOTE_GOOGLE.note}</b><i>★</i></span>
+                <div>
+                  <p>{AVIS[0][0]}</p>
+                  <small>{AVIS[0][1]} · {NOTE_GOOGLE.nombre} avis Google, note moyenne {NOTE_GOOGLE.note}/{NOTE_GOOGLE.sur}</small>
+                </div>
+              </a>
             </div>
           </div>
         </section>
 
         {/* 04 · LE CONSTAT */}
         <section id="constat" data-cote="02" className="sombre">
-          <div className="wrap wrap--etroit">
+          <div className="wrap">
             <span className="eyebrow reveal">Le constat</span>
-            <h2 className="reveal">
-              Pourquoi un dirigeant qui gagne bien sa vie a quand même l&apos;impression de
-              travailler pour les autres
+            <h2 className="reveal" style={{ maxWidth: "22ch" }}>
+              Votre rémunération n&apos;a jamais été décidée. Elle s&apos;est empilée.
             </h2>
             <p className="reponse reveal">
-              Parce que sa rémunération n&apos;a jamais été décidée. Elle s&apos;est empilée : un
-              salaire fixé au démarrage, des dividendes votés en fin d&apos;exercice, un compte
-              courant qu&apos;on ne regarde plus, une prévoyance signée il y a huit ans. Chaque
-              brique est correcte prise seule. L&apos;ensemble, personne ne l&apos;a jamais arbitré.
+              Chaque brique est correcte prise seule. L&apos;ensemble, personne ne l&apos;a jamais
+              regardé. Voilà comment ça se construit, dans neuf dossiers sur dix.
             </p>
-            <p className="reveal">
-              Votre expert-comptable travaille sur une société à la fois, sur un exercice fermé, avec
-              les chiffres du passé. Ce n&apos;est pas un reproche, c&apos;est son métier et son
-              mandat. Votre banquier regarde vos revenus déclarés pour savoir ce qu&apos;il peut vous
-              prêter. Votre assureur vend de la couverture. Votre notaire intervient le jour où ça
-              compte, c&apos;est-à-dire trop tard pour changer quoi que ce soit à la façon dont vous
-              vous êtes payé pendant quinze ans.
-            </p>
-            <p className="reveal">
-              Aucun d&apos;entre eux n&apos;a la mission, ni les informations, ni franchement
-              l&apos;intérêt de vous dire : voilà ce que votre société produit, voilà ce qui arrive
-              chez vous, voilà où ça se perd et voilà ce qu&apos;on peut légitimement récupérer. Ce
-              poste existe dans les grands groupes. Il s&apos;appelle la direction financière. Dans
-              une PME, il est vacant, et c&apos;est le dirigeant qui l&apos;occupe le dimanche soir,
-              avec ce qu&apos;il a compris tout seul.
-            </p>
-            <p className="reveal">
-              Le résultat est toujours le même. Vous payez ce qu&apos;il faut, parfois davantage.
-              Vous avancez sans savoir si c&apos;est le bon chemin. Et vous avez le sentiment
-              désagréable, jamais vérifié, que quelqu&apos;un de mieux organisé que vous s&apos;en
-              sortirait mieux avec exactement les mêmes chiffres. Ce sentiment est juste. Ce
-              n&apos;est pas une question de fraude ni d&apos;astuce, c&apos;est une question
-              d&apos;architecture.
-            </p>
+
+            <div className="empilement reveal">
+              <div className="couche">
+                <span className="quand">Au démarrage</span>
+                <b>Un salaire fixé « pour commencer »</b>
+                <p>Calculé une fois, sur un coin de table, avec les charges de l&apos;époque. Jamais revu depuis.</p>
+              </div>
+              <div className="couche">
+                <span className="quand">À chaque clôture</span>
+                <b>Des dividendes votés au jugé</b>
+                <p>En fonction de ce qui reste et de l&apos;humeur de l&apos;expert-comptable, sans plan derrière.</p>
+              </div>
+              <div className="couche">
+                <span className="quand">Il y a huit ans</span>
+                <b>Une prévoyance signée un mardi</b>
+                <p>Un contrat qui couvre on ne sait plus quoi, et qu&apos;on paie encore tous les mois.</p>
+              </div>
+              <div className="couche">
+                <span className="quand">Depuis toujours</span>
+                <b>Un compte courant qu&apos;on ne regarde plus</b>
+                <p>De l&apos;argent prêté à votre propre société, qui ne vous rapporte rien.</p>
+              </div>
+              <div className="couche couche--total">
+                <span className="quand">Résultat</span>
+                <b>20 à 30 000 € par an qui partent dans les couloirs</b>
+                <p>Ni fraude, ni astuce, ni faute de personne. Juste un poste vacant : celui qui regarde l&apos;ensemble.</p>
+              </div>
+            </div>
+
+            <div className="accroche reveal">
+              <p>Ce poste existe dans les grands groupes. Dans une PME, c&apos;est vous, le dimanche soir.</p>
+            </div>
           </div>
         </section>
 
@@ -158,9 +169,8 @@ export default function Page() {
             <span className="eyebrow reveal">Le vrai problème</span>
             <h2 className="reveal">Chacun sa pièce, et personne dans le couloir</h2>
             <p className="reponse reveal">
-              Vos conseils ne sont pas mauvais. Ils sont cloisonnés. Chacun voit une partie de votre
-              situation, personne ne voit l&apos;ensemble, et l&apos;argent se perd exactement là où
-              leurs périmètres ne se touchent pas. C&apos;est cette ligne que Cap. trace.
+              Vos conseils ne sont pas mauvais, ils sont cloisonnés. Chacun voit une partie de votre
+              situation. L&apos;argent se perd là où leurs périmètres ne se touchent pas.
             </p>
             <Schema />
 
@@ -363,88 +373,41 @@ export default function Page() {
         <section id="preuve" data-cote="10" className="sombre">
           <div className="wrap">
             <span className="eyebrow reveal">La preuve</span>
-            <h2 className="reveal">Un dossier réel, démonté devant vous</h2>
+            <h2 className="reveal">Un dossier réel, ouvert devant vous</h2>
             <p className="reponse reveal">
               Un chiffre qu&apos;on répète est un argument. Un chiffre qu&apos;on ouvre ligne à ligne
               est une preuve. Voici donc un dossier de cabinet, anonymisé : ce que nous avons trouvé,
               ce que nous avons déplacé, et ce que nous n&apos;avons pas touché.
             </p>
 
-            <div className="fiche reveal" style={{ marginTop: "2.4rem" }}>
-              <table className="anat">
-                <caption>
-                  Dossier anonymisé · dirigeant d&apos;un groupe de quatre entités · holding,
-                  deux sociétés d&apos;exploitation, une SCI
-                </caption>
-                <thead>
-                  <tr>
-                    <th>Ce que nous avons arbitré</th>
-                    <th>Avant</th>
-                    <th>Après</th>
-                    <th style={{ textAlign: "right" }}>Effet</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Forme de la holding et statut du dirigeant</td>
-                    <td className="gris">Société par actions, dirigeant assimilé salarié</td>
-                    <td className="gris">Passage en gérance travailleur non salarié</td>
-                    <td className="n">Coût du même net divisé</td>
-                  </tr>
-                  <tr>
-                    <td>Remontée des résultats des filiales</td>
-                    <td className="gris">Dividendes remontés sans régime</td>
-                    <td className="gris">Régime mère-fille activé</td>
-                    <td className="n">Frottement quasi supprimé</td>
-                  </tr>
-                  <tr>
-                    <td>Compte courant d&apos;associé</td>
-                    <td className="gris">Sommes laissées, non rémunérées</td>
-                    <td className="gris">Convention écrite, intérêts servis</td>
-                    <td className="n">Revenu supplémentaire</td>
-                  </tr>
-                  <tr>
-                    <td>Calibrage des charges de la holding</td>
-                    <td className="gris">Résultat imposé sans pilotage</td>
-                    <td className="gris">Holding tenue proche du point mort</td>
-                    <td className="n">Base imposable maîtrisée</td>
-                  </tr>
-                  <tr className="total">
-                    <td colSpan={3}>Ordre de grandeur récupéré sur la première année</td>
-                    <td className="n">30 000 €</td>
-                  </tr>
-                </tbody>
-              </table>
-              <p style={{ marginTop: "1.7em", color: "var(--gris-bas)", fontSize: "14.5px" }}>
-                Ce que nous n&apos;avons pas touché : l&apos;activité, les contrats commerciaux, la
-                trésorerie d&apos;exploitation. Aucun produit financier n&apos;a été souscrit et
-                aucune structure n&apos;a été créée pour l&apos;occasion. Chaque décision a été
-                actée par écrit avec son fondement, puis passée par l&apos;expert-comptable du
-                groupe.
-              </p>
+            <div className="leviers reveal" style={{ marginTop: "2.4rem" }}>
+              {CAS.postes.map(([quoi, avant, apres], i) => (
+                <div className="levier" key={quoi}>
+                  <span className="n">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="quoi">{quoi}</span>
+                  <span className="etat avant"><small>Avant</small>{avant}</span>
+                  <span className="etat apres"><small>Après</small>{apres}</span>
+                </div>
+              ))}
             </div>
 
-            <div className="grille-2 reveal" style={{ marginTop: "18px" }}>
-              <div className="fiche fiche--neutre">
-                <span className="num">Ce que ça veut dire</span>
-                <p>
-                  Aucune de ces décisions n&apos;est exotique. Prises séparément, elles sont
-                  banales. C&apos;est leur combinaison et leur ordre qui produisent le résultat, et
-                  c&apos;est exactement ce que personne n&apos;avait le mandat de faire.
-                </p>
+            <div className="resultat reveal">
+              <div className="gros">
+                <b>30 000 €</b>
+                <span>récupérés sur la première année</span>
+                <small>
+                  Quatre décisions ordinaires, prises dans le bon ordre. Ce ne sera pas forcément
+                  votre chiffre : un dossier sur cinq se conclut par « ne changez rien », et nous ne
+                  promettons rien avant d&apos;avoir ouvert le vôtre.
+                </small>
               </div>
-              <div className="fiche fiche--neutre">
-                <span className="num">Ce que ça ne veut pas dire</span>
-                <p>
-                  Que ce sera votre chiffre. Certains dossiers dégagent moins, quelques-uns
-                  davantage, et un sur cinq se conclut par « ne changez rien ». Nous ne promettons
-                  aucun montant avant d&apos;avoir ouvert votre dossier.
-                </p>
-              </div>
+              <Repetition />
             </div>
 
-            <div style={{ marginTop: "18px" }}>
-              <FigDecennie />
+            <div className="intacts reveal">
+              {CAS.intacts.map((l) => (
+                <span key={l}>{l}</span>
+              ))}
             </div>
 
             <div className="actions reveal">
@@ -632,7 +595,8 @@ export default function Page() {
             <span className="eyebrow reveal">Ils l&apos;ont vécu</span>
             <h2 className="reveal">Ce que disent les dirigeants qui sont passés par là</h2>
             <p className="reponse reveal">
-              Extraits d&apos;avis publics laissés par des clients du cabinet, reproduits tels quels.
+              {NOTE_GOOGLE.note} sur {NOTE_GOOGLE.sur} sur Google, {NOTE_GOOGLE.nombre} avis publics. Extraits reproduits tels quels,{" "}
+              <a href={NOTE_GOOGLE.lien} target="_blank" rel="noopener noreferrer" style={{ color: "var(--rose)" }}>tous lisibles ici</a>.
             </p>
             <div className="avis reveal" style={{ marginTop: "2.4rem" }}>
               {AVIS.map(([texte, qui]) => (

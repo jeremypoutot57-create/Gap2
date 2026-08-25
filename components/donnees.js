@@ -30,6 +30,10 @@ export const LIVRABLES = [
   ["Pièce 06", "Le point de contrôle", "Ce qu'il faudra vérifier dans douze mois, et les trois signaux qui devront vous faire rouvrir le dossier."],
 ];
 
+/* Note agrégée Google : à tenir à jour de temps en temps. */
+export const NOTE_GOOGLE = { note: "4,6", sur: "5", nombre: "35", lien: "https://www.google.com/search?q=Arras+Patrimoine+Avis" };
+
+/* Avis : texte, signature. À compléter avec les avis Google les plus parlants pour un dirigeant. */
 export const AVIS = [
   ["Conseil, expertise, professionnalisme. Une société orientée solution, où le mot problème devient challenge.", "Mathieu F. · Investisseur et professionnel libéral"],
   ["Conseils avisés, accompagnement hors pair à chaque étape du projet, réactivité. Je recommande à 1000 %.", "Angélique M. · Investisseuse et cadre"],
@@ -65,7 +69,7 @@ export const REFUSONS = [
 /* Cas réel anonymisé — dirigeant d'un groupe à quatre entités.
    Aucun nom, aucun montant par poste : la ventilation chiffrée se remet en séance. */
 export const CAS = {
-  intitule: "Dirigeant d'un groupe de quatre entités · holding, deux sociétés d'exploitation, une SCI",
+  intitule: "Dirigeant d'un groupe de quatre entités",
   postes: [
     [
       "Forme de la holding et statut du dirigeant",
@@ -93,10 +97,10 @@ export const CAS = {
     ],
   ],
   intacts: [
-    "Aucune société n'a été créée pour l'occasion",
-    "Aucun produit financier n'a été souscrit",
-    "L'activité, les contrats et les salariés n'ont pas bougé",
-    "Chaque décision a été validée par l'expert-comptable du groupe",
+    "Aucune société créée pour l'occasion",
+    "Aucun produit financier souscrit",
+    "Activité, contrats et salariés inchangés",
+    "Validé par l'expert-comptable du groupe",
   ],
 };
 
