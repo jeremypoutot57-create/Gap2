@@ -71,7 +71,7 @@ export default function HeroForm() {
         {erreur ? <span className="hf-erreur">{erreur}</span> : null}
       </div>
       <p className="hf-note">
-        Réponse d&apos;un humain sous 2 h ouvrées. Si vous n&apos;êtes pas dans notre cible, on vous le dit tout de suite.
+        Réponse d&apos;un humain sous 24 h ouvrées. Si vous n&apos;êtes pas dans notre cible, on vous le dit tout de suite.
       </p>
     </div>
   );

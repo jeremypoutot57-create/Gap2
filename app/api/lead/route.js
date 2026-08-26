@@ -129,7 +129,7 @@ async function envoyerCopie({ titre, description, p, temperature }) {
         <a href="mailto:${p.email}" style="display:inline-block;background:#E85D8A;color:#170A10;text-decoration:none;font-weight:600;padding:12px 18px;border-radius:3px;font-size:14px">Répondre à ${p.email}</a>
         <a href="tel:${p.telephone.replace(/\s/g, "")}" style="display:inline-block;margin-left:10px;border:1px solid rgba(255,255,255,.26);color:#E9EEF5;text-decoration:none;padding:12px 18px;border-radius:3px;font-size:14px">Appeler ${p.telephone}</a>
       </div>
-      <p style="font-size:12px;color:#65758C;margin:18px 0 0">Réponse promise sous deux heures ouvrées. Le lead a aussi été créé dans noCRM.</p>
+      <p style="font-size:12px;color:#65758C;margin:18px 0 0">Réponse promise sous 24 h ouvrées. Le lead a aussi été créé dans noCRM.</p>
     </div>
   </div>
 </div>`;

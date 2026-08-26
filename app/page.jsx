@@ -3,8 +3,7 @@ import Video from "../components/Video";
 import HeroForm from "../components/HeroForm";
 import Formulaire from "../components/Formulaire";
 import BarreFlottante from "../components/BarreFlottante";
-import Schema from "../components/Schema";
-import { FigTrajet, FigCalendrier, Repetition } from "../components/Figures";
+import { FigCalendrier, Repetition } from "../components/Figures";
 import { Progression, Sommaire } from "../components/Chrome";
 import { SCENES, LIVRABLES, AVIS, FAQ, PRENONS, REFUSONS, CAS, NOTE_GOOGLE } from "../components/donnees";
 import { jsonLd } from "../components/jsonld";
@@ -39,7 +38,7 @@ export default function Page() {
               <span className="wordmark wordmark--nav">
                 Cap<span className="pt">.</span>
               </span>
-              <span className="par">par Arras Patrimoine</span>
+              <span className="par">C&apos;est pas compliqué, juste mal expliqué.</span>
             </div>
             <a className="btn btn--primaire" href="#dossier" data-ev="cta_header">
               Voir si mon dossier passe <span className="fl">→</span>
@@ -96,14 +95,18 @@ export default function Page() {
         {/* 04 · LE CONSTAT */}
         <section id="constat" data-cote="02" className="sombre">
           <div className="wrap">
-            <span className="eyebrow reveal">Le constat</span>
-            <h2 className="reveal" style={{ maxWidth: "22ch" }}>
+            <div className="intro">
+              <div>
+                <span className="eyebrow reveal">Le constat</span>
+                <h2 className="reveal">
               Votre rémunération n&apos;a jamais été décidée. Elle s&apos;est empilée.
             </h2>
-            <p className="reponse reveal">
+              </div>
+              <p className="reponse reveal">
               Chaque brique est correcte prise seule. L&apos;ensemble, personne ne l&apos;a jamais
               regardé. Voilà comment ça se construit, dans neuf dossiers sur dix.
             </p>
+            </div>
 
             <div className="empilement reveal">
               <div className="couche">
@@ -142,13 +145,17 @@ export default function Page() {
         {/* 05 · SCÈNES MIROIR */}
         <section id="scenes" data-cote="03">
           <div className="wrap">
-            <span className="eyebrow reveal">Vous reconnaîtrez peut-être</span>
-            <h2 className="reveal">Cinq phrases que nous entendons chaque semaine</h2>
-            <p className="reponse reveal">
+            <div className="intro">
+              <div>
+                <span className="eyebrow reveal">Vous reconnaîtrez peut-être</span>
+                <h2 className="reveal">Cinq phrases que nous entendons chaque semaine</h2>
+              </div>
+              <p className="reponse reveal">
               Ces situations viennent de dossiers réels. Si l&apos;une d&apos;elles vous ressemble,
               ce n&apos;est pas un hasard : ce sont les cinq configurations qui produisent le plus
               d&apos;écart entre ce que vous pourriez récupérer et ce que vous récupérez vraiment.
             </p>
+            </div>
             <div className="reveal">
               {SCENES.map((s, i) => (
                 <div className="scene" key={i}>
@@ -166,16 +173,58 @@ export default function Page() {
         {/* 06 · PÉRIMÈTRES */}
         <section id="perimetres" data-cote="04" className="sombre">
           <div className="wrap">
-            <span className="eyebrow reveal">Le vrai problème</span>
-            <h2 className="reveal">Chacun sa pièce, et personne dans le couloir</h2>
-            <p className="reponse reveal">
-              Vos conseils ne sont pas mauvais, ils sont cloisonnés. Chacun voit une partie de votre
-              situation. L&apos;argent se perd là où leurs périmètres ne se touchent pas.
+            <div className="intro">
+              <div>
+                <span className="eyebrow reveal">Le vrai problème</span>
+                <h2 className="reveal">Chacun sa pièce, et personne dans le couloir</h2>
+              </div>
+              <p className="reponse reveal">
+              Vos conseils ne sont pas mauvais, ils sont cloisonnés. L&apos;argent se perd là où leurs
+              périmètres ne se touchent pas.
             </p>
-            <Schema />
+            </div>
 
-            <div style={{ marginTop: "18px" }}>
-              <FigTrajet />
+            <div className="probleme">
+              <div className="chiffre-geant reveal">
+                <div>
+                  <div className="sur">Sur 100 € produits par votre société</div>
+                  <div className="nb"><i>44</i> €</div>
+                  <p className="legende">arrivent réellement chez vous, sur le chemin par défaut.</p>
+                </div>
+                <div className="flux-mini">
+                  <div className="e"><b>100 €</b>produits</div>
+                  <div className="fl-a"><span>charges</span></div>
+                  <div className="e"><b>62 €</b>après charges</div>
+                  <div className="fl-a"><span>impôt</span></div>
+                  <div className="e f"><b>44 €</b>chez vous</div>
+                </div>
+              </div>
+
+              <div className="conseils reveal">
+                <p className="titre">Ce que chacun voit de votre rémunération</p>
+                {[
+                  ["Expert-comptable", "Tient les comptes d'une société à la fois, sur l'exercice clos.", "Ne voit pas votre foyer"],
+                  ["Banquier", "Lit vos revenus déclarés pour décider de ce qu'il vous prête.", "Ne voit pas la holding"],
+                  ["Assureur", "Place de la couverture, prévoyance et retraite.", "Ne voit pas l'arbitrage"],
+                  ["Notaire", "Intervient le jour où ça compte, trop tard pour la trajectoire.", "Ne voit pas le flux"],
+                ].map(([nom, voit, angle], i) => (
+                  <div className="conseil" key={nom}>
+                    <span className="pt">{i + 1}</span>
+                    <div>
+                      <b>{nom}</b>
+                      <span>{voit}</span>
+                      <em>{angle}</em>
+                    </div>
+                  </div>
+                ))}
+                <div className="ligne-cap">
+                  <i />
+                  <div>
+                    <b>La ligne que Cap. occupe</b>
+                    <span>Entre les quatre, là où personne n&apos;a le mandat de regarder.</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -183,14 +232,18 @@ export default function Page() {
         {/* 07 · OBJECTION REINE */}
         <section data-cote="05">
           <div className="wrap wrap--etroit">
-            <span className="eyebrow reveal">L&apos;objection</span>
-            <h2 className="reveal">« Mon expert-comptable dit qu&apos;on ne peut pas faire mieux »</h2>
-            <p className="reponse reveal">
+            <div className="intro">
+              <div>
+                <span className="eyebrow reveal">L&apos;objection</span>
+                <h2 className="reveal">« Mon expert-comptable dit qu&apos;on ne peut pas faire mieux »</h2>
+              </div>
+              <p className="reponse reveal">
               C&apos;est la phrase que nous entendons le plus, et elle mérite mieux qu&apos;une
               réponse commerciale. Votre expert-comptable dit vrai dans son périmètre. Nous ne
               travaillons pas dans son périmètre, et nous ne travaillons jamais contre lui : nous lui
               apportons une vue qu&apos;il n&apos;a pas, et il valide.
             </p>
+            </div>
             <p className="reveal">
               Voilà comment ça se passe concrètement, parce que c&apos;est arrivé des dizaines de
               fois. Nous construisons le plan, puis nous demandons un rendez-vous à trois : vous,
@@ -217,15 +270,19 @@ export default function Page() {
         {/* 08 · STRATÉGIE VS MONTAGE */}
         <section data-cote="06" className="sombre">
           <div className="wrap">
-            <span className="eyebrow reveal">La différence qui compte</span>
-            <h2 className="reveal">Une stratégie de rémunération n&apos;est pas un montage</h2>
-            <p className="reponse reveal">
+            <div className="intro">
+              <div>
+                <span className="eyebrow reveal">La différence qui compte</span>
+                <h2 className="reveal">Une stratégie de rémunération n&apos;est pas un montage</h2>
+              </div>
+              <p className="reponse reveal">
               Un montage est une construction qu&apos;on installe pour obtenir un effet, et
               qu&apos;on défend ensuite si on vous la conteste. Une stratégie de rémunération est une
               suite de décisions ordinaires, chacune parfaitement banale prise seule, dont
               l&apos;ordre et la combinaison produisent un résultat très différent. La première se
               démonte. La seconde s&apos;explique.
             </p>
+            </div>
             <div className="grille-2 reveal" style={{ marginTop: "2.4rem" }}>
               <div className="fiche fiche--neutre">
                 <span className="num">Ce que nous ne faisons pas</span>
@@ -263,14 +320,18 @@ export default function Page() {
         {/* 09 · MÉTHODE */}
         <section id="methode" data-cote="07">
           <div className="wrap">
-            <span className="eyebrow reveal">La méthode</span>
-            <h2 className="reveal">Trois temps, trente jours, un plan écrit</h2>
-            <p className="reponse reveal">
+            <div className="intro">
+              <div>
+                <span className="eyebrow reveal">La méthode</span>
+                <h2 className="reveal">Trois temps, trente jours, un plan écrit</h2>
+              </div>
+              <p className="reponse reveal">
               La mission dure trente jours au maximum, du premier échange à la remise du plan. Elle
               se déroule en trois temps : nous auditons ce qui existe, nous arbitrons avec vous
               scénario par scénario, puis nous documentons chaque décision par écrit. Tout se fait en
               visio, où que vous soyez.
             </p>
+            </div>
             <div className="grille-3 reveal" style={{ marginTop: "2.4rem" }}>
               <div className="fiche">
                 <span className="num">Temps 1 · jours 1 à 10</span>
@@ -322,13 +383,17 @@ export default function Page() {
         {/* 10 · LIVRABLE */}
         <section data-cote="08" className="sombre">
           <div className="wrap">
-            <span className="eyebrow reveal">Le livrable</span>
-            <h2 className="reveal">Ce que vous avez entre les mains au trentième jour</h2>
-            <p className="reponse reveal">
+            <div className="intro">
+              <div>
+                <span className="eyebrow reveal">Le livrable</span>
+                <h2 className="reveal">Ce que vous avez entre les mains au trentième jour</h2>
+              </div>
+              <p className="reponse reveal">
               Un dossier écrit, pas une présentation. Six pièces, numérotées, que vous pouvez
               transmettre à votre expert-comptable, à votre banque ou à votre avocat sans avoir
               besoin de nous pour les expliquer.
             </p>
+            </div>
             <div className="livrables reveal" style={{ marginTop: "2.4rem" }}>
               {LIVRABLES.map(([n, titre, texte]) => (
                 <div key={n}>
@@ -363,7 +428,7 @@ export default function Page() {
               </a>
             </div>
             <p className="micro reveal">
-              Réponse d&apos;un humain sous deux heures ouvrées. Vous saurez tout de suite si votre
+              Réponse d&apos;un humain sous 24 h ouvrées. Vous saurez tout de suite si votre
               dossier relève de nous.
             </p>
           </div>
@@ -372,13 +437,17 @@ export default function Page() {
         {/* 12 · ANATOMIE DU GAIN */}
         <section id="preuve" data-cote="10" className="sombre">
           <div className="wrap">
-            <span className="eyebrow reveal">La preuve</span>
-            <h2 className="reveal">Un dossier réel, ouvert devant vous</h2>
-            <p className="reponse reveal">
+            <div className="intro">
+              <div>
+                <span className="eyebrow reveal">La preuve</span>
+                <h2 className="reveal">Un dossier réel, ouvert devant vous</h2>
+              </div>
+              <p className="reponse reveal">
               Un chiffre qu&apos;on répète est un argument. Un chiffre qu&apos;on ouvre ligne à ligne
               est une preuve. Voici donc un dossier de cabinet, anonymisé : ce que nous avons trouvé,
               ce que nous avons déplacé, et ce que nous n&apos;avons pas touché.
             </p>
+            </div>
 
             <div className="leviers reveal" style={{ marginTop: "2.4rem" }}>
               {CAS.postes.map(([quoi, avant, apres], i) => (
@@ -428,14 +497,18 @@ export default function Page() {
         {/* 13 · VERROUS */}
         <section data-cote="11">
           <div className="wrap">
-            <span className="eyebrow reveal">Nos verrous</span>
-            <h2 className="reveal">Trois règles qui vous protègent de nous</h2>
-            <p className="reponse reveal">
+            <div className="intro">
+              <div>
+                <span className="eyebrow reveal">Nos verrous</span>
+                <h2 className="reveal">Trois règles qui vous protègent de nous</h2>
+              </div>
+              <p className="reponse reveal">
               Le conseil patrimonial français a un problème structurel : la plupart des acteurs sont
               rémunérés par les produits qu&apos;ils placent. Nous avons donc posé trois règles qui
               rendent ce conflit impossible chez nous, et nous les écrivons sur la page plutôt que
               dans nos conditions générales.
             </p>
+            </div>
             <div className="grille-3 reveal" style={{ marginTop: "2.4rem" }}>
               <div className="fiche fiche--neutre">
                 <span className="num">Premier verrou</span>
@@ -468,20 +541,24 @@ export default function Page() {
         {/* 14 · SÉLECTIVITÉ */}
         <section id="selectivite" data-cote="12" className="sombre">
           <div className="wrap">
-            <span className="eyebrow reveal">Sélectivité</span>
-            <h2 className="reveal">Huit dossiers par mois, et nous choisissons lesquels</h2>
-            <p className="reponse reveal">
+            <div className="intro">
+              <div>
+                <span className="eyebrow reveal">Sélectivité</span>
+                <h2 className="reveal">Huit dossiers par mois, et nous choisissons lesquels</h2>
+              </div>
+              <p className="reponse reveal">
               Ce n&apos;est pas une posture de rareté, c&apos;est une contrainte de méthode. Un
               dossier demande une trentaine d&apos;heures réparties sur trente jours, dont plusieurs
               séances avec vous. Au-delà de huit, la qualité tombe. Nous préférons refuser un dossier
               que le traiter à moitié.
             </p>
+            </div>
             <div className="accroche reveal">
               <p>Un dossier qui ne récupère rien nous coûte plus cher qu&apos;il ne vous coûte.</p>
             </div>
             <p className="reveal">
               Nous refusons aussi les dossiers où nous ne serions pas impactants, même quand le
-              dirigeant est prêt à payer. Un accompagnement qui ne récupère rien vous coûte de
+              dirigeant souhaite avancer. Un accompagnement qui ne récupère rien vous coûte de
               l&apos;argent et nous coûte notre réputation. Voici donc les critères, écrits.
             </p>
             <div className="tri reveal" style={{ marginTop: "2.2rem" }}>
@@ -515,14 +592,18 @@ export default function Page() {
         {/* 15 · ET SI ON NE TROUVE RIEN */}
         <section data-cote="13">
           <div className="wrap wrap--etroit">
-            <span className="eyebrow reveal">La question qu&apos;on nous pose rarement</span>
-            <h2 className="reveal">Et si vous ne trouvez rien chez moi ?</h2>
-            <p className="reponse reveal">
+            <div className="intro">
+              <div>
+                <span className="eyebrow reveal">La question qu&apos;on nous pose rarement</span>
+                <h2 className="reveal">Et si vous ne trouvez rien chez moi ?</h2>
+              </div>
+              <p className="reponse reveal">
               Ça arrive dans environ un dossier sur cinq. Votre situation est déjà cohérente, votre
               expert-comptable a bien travaillé, il n&apos;y a pas d&apos;écart significatif à
               récupérer. Dans ce cas, nous vous le disons par écrit, avec le chiffrage qui le
               démontre.
             </p>
+            </div>
             <p className="reveal">
               Ce n&apos;est pas un échec, et ce n&apos;est pas rien. Vous repartez avec la
               cartographie complète de votre situation, la preuve chiffrée que vous ne passez pas à
@@ -541,49 +622,50 @@ export default function Page() {
         {/* 16 · QUI S'EN OCCUPE */}
         <section data-cote="14" className="sombre">
           <div className="wrap">
-            <span className="eyebrow reveal">Qui s&apos;en occupe</span>
-            <h2 className="reveal">Deux personnes, pas un service</h2>
-            <p className="reponse reveal">
+            <div className="intro">
+              <div>
+                <span className="eyebrow reveal">Qui s&apos;en occupe</span>
+                <h2 className="reveal">Deux personnes, pas un service</h2>
+              </div>
+              <p className="reponse reveal">
               Votre dossier est traité par deux personnes identifiées, du premier échange à la remise
-              du plan. Vous ne passerez pas d&apos;un commercial à un chargé de mission puis à un
-              assistant. C&apos;est aussi pour ça qu&apos;il n&apos;y a que huit dossiers par mois.
+              du plan. C&apos;est aussi pour ça qu&apos;il n&apos;y a que huit dossiers par mois.
             </p>
-            <div className="gens reveal" style={{ marginTop: "2.4rem" }}>
-              <div className="p">
-                <img src="/jeremy.png" alt="Jérémy Poutot" className="ph" width="880" height="1100" />
-                <div>
+            </div>
+
+            <div className="equipe">
+              <div className="personne reveal">
+                <div className="portrait"><img src="/jeremy.png" alt="Jérémy Poutot" /></div>
+                <div className="fiche-p">
                   <h4>Jérémy Poutot</h4>
-                  <span className="role">Fondateur · arbitrage</span>
-                  <p>
-                    Douze ans de pratique, deux masters en stratégies sociétaires et ingénierie
-                    patrimoniale à Toulouse, diplômé fédéral juriste du patrimoine. Il mène les
-                    séances d&apos;arbitrage et signe le plan. Il a aussi dirigé et perdu des
-                    sociétés, ce qui change la façon dont on regarde un bilan.
-                  </p>
+                  <span className="role">Fondateur · mène l&apos;arbitrage et signe le plan</span>
+                  <p>Il a dirigé, et perdu, des sociétés. Ça change la façon dont on lit un bilan et dont on parle à un dirigeant.</p>
+                  <ul>
+                    <li>Douze ans de pratique</li>
+                    <li>Deux masters en stratégies sociétaires et ingénierie patrimoniale, Toulouse</li>
+                    <li>Diplômé fédéral juriste du patrimoine</li>
+                  </ul>
                 </div>
               </div>
-              <div className="p">
-                <img src="/marie-amelie.png" alt="Marie-Amélie" className="ph" width="880" height="1100" />
-                <div>
+              <div className="personne reveal">
+                <div className="portrait"><img src="/marie-amelie.png" alt="Marie-Amélie" /></div>
+                <div className="fiche-p">
                   <h4>Marie-Amélie</h4>
-                  <span className="role">Pôle ingénierie · construction</span>
-                  <p>
-                    Elle construit la cartographie et les scénarios chiffrés, et c&apos;est elle qui
-                    va chercher la ligne qui manque dans la liasse. C&apos;est votre interlocutrice
-                    au quotidien pendant les trente jours.
-                  </p>
+                  <span className="role">Pôle ingénierie · construit et chiffre</span>
+                  <p>Elle bâtit la cartographie et les scénarios, et c&apos;est elle qui va chercher la ligne qui manque dans la liasse.</p>
+                  <ul>
+                    <li>Votre interlocutrice pendant les trente jours</li>
+                    <li>Cartographie, scénarios chiffrés, plan écrit</li>
+                    <li>Réponse sous 24 h ouvrées</li>
+                  </ul>
                 </div>
               </div>
             </div>
-            <div className="fiche fiche--neutre reveal" style={{ marginTop: "18px" }}>
-              <span className="num">Autour d&apos;eux</span>
-              <p>
-                Cap. est l&apos;offre de stratégie de rémunération d&apos;Arras Patrimoine, cabinet
-                d&apos;ingénierie patrimoniale installé à Arras et intervenant partout en France en
-                visio. Le cabinet compte huit experts salariés et quinze experts externes
-                mobilisables selon les dossiers, dont un avocat fiscaliste partenaire dont la
-                validation vous est proposée en option.
-              </p>
+
+            <div className="cabinet-stats reveal">
+              <div><b>8</b><span>experts salariés chez Arras Patrimoine</span></div>
+              <div><b>15</b><span>experts externes mobilisables selon le dossier</span></div>
+              <div><b>1</b><span>avocat fiscaliste partenaire, en option, à votre main</span></div>
             </div>
           </div>
         </section>
@@ -591,22 +673,34 @@ export default function Page() {
         {/* 17 · PREUVE SOCIALE */}
         <section data-cote="15">
           <div className="wrap">
-            <span className="eyebrow reveal">Ils l&apos;ont vécu</span>
-            <h2 className="reveal">Ce que disent les dirigeants qui sont passés par là</h2>
-            <p className="reponse reveal">
-              {NOTE_GOOGLE.note} sur {NOTE_GOOGLE.sur} sur Google, {NOTE_GOOGLE.nombre} avis publics. Extraits reproduits tels quels,{" "}
-              <a href={NOTE_GOOGLE.lien} target="_blank" rel="noopener noreferrer" style={{ color: "var(--rose)" }}>tous lisibles ici</a>.
-            </p>
-            <div className="avis reveal" style={{ marginTop: "2.4rem" }}>
-              {AVIS.map(([texte, qui]) => (
-                <div className="a" key={qui}>
-                  <div>
-                    <span className="et">★★★★★</span>
-                    <p className="txt">{texte}</p>
+            <div className="intro">
+              <div>
+                <span className="eyebrow reveal">Ils l&apos;ont vécu</span>
+                <h2 className="reveal">Ce que disent ceux qui sont passés par là</h2>
+              </div>
+            </div>
+
+            <div className="avis-mur">
+              <div className="avis-total reveal">
+                <div className="n">{NOTE_GOOGLE.note}<small>/ {NOTE_GOOGLE.sur}</small></div>
+                <span className="etoiles">★★★★★</span>
+                <p className="src">{NOTE_GOOGLE.nombre} avis publics sur Google, tous cabinets d&apos;Arras Patrimoine confondus.</p>
+                <a href={NOTE_GOOGLE.lien} target="_blank" rel="noopener noreferrer" data-ev="clic_avis_google">
+                  Lire tous les avis <span className="fl">→</span>
+                </a>
+              </div>
+              <div className="avis-liste">
+                {AVIS.map(([texte, qui]) => (
+                  <div className="temoignage reveal" key={qui}>
+                    <span className="av">{qui.trim().split(" ").map((m) => m[0]).slice(0, 2).join("").toUpperCase()}</span>
+                    <div className="corps">
+                      <span className="et">★★★★★</span>
+                      <p>{texte}</p>
+                      <small>{qui}</small>
+                    </div>
                   </div>
-                  <span className="qui">{qui}</span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -632,13 +726,17 @@ export default function Page() {
         {/* 18 bis · CE QUE DONNE L'APPEL */}
         <section data-cote="16b">
           <div className="wrap">
-            <span className="eyebrow reveal">Sans engagement</span>
-            <h2 className="reveal">Ce que vous repartez avec après trente minutes</h2>
-            <p className="reponse reveal">
-              L&apos;échange de découverte n&apos;est pas une présentation commerciale. Nous ouvrons
-              votre situation à voix haute et vous repartez avec trois choses, que vous travailliez
-              avec nous ensuite ou non.
-            </p>
+            <div className="intro">
+              <div>
+                <span className="eyebrow reveal">Sans engagement</span>
+                <h2 className="reveal">Ce que vous repartez avec après trente minutes</h2>
+              </div>
+              <p className="reponse reveal">
+                L&apos;échange de découverte n&apos;est pas une présentation commerciale. Nous ouvrons
+                votre situation à voix haute et vous repartez avec trois choses, que vous travailliez
+                avec nous ensuite ou non.
+              </p>
+            </div>
             <div className="grille-3 reveal" style={{ marginTop: "2.4rem" }}>
               <div className="fiche">
                 <span className="num">01</span>
@@ -658,10 +756,10 @@ export default function Page() {
               </div>
               <div className="fiche">
                 <span className="num">03</span>
-                <h3>Le prix, dit à voix haute</h3>
+                <h3>Des explications, pas un argumentaire</h3>
                 <p>
-                  Nous vous annonçons le tarif de la mission pendant l&apos;échange. Pas de
-                  proposition envoyée trois jours plus tard, pas de relance.
+                  Vous comprendrez comment votre juridique, votre social et votre fiscal
+                  s&apos;articulent. Même si vous ne donnez pas suite, vous repartez avec ça.
                 </p>
               </div>
             </div>
@@ -669,6 +767,29 @@ export default function Page() {
               <span>30 minutes, en visio</span>
               <span>Aucun document à préparer</span>
               <span>Aucune relance si vous ne donnez pas suite</span>
+            </div>
+          </div>
+        </section>
+
+        {/* 18 ter · PAS DE PRESSION */}
+        <section>
+          <div className="wrap wrap--etroit">
+            <div className="rassurance reveal">
+              <p className="grand">
+                Vous n&apos;avez pas besoin de savoir comment vous vous rémunérez pour venir nous voir.
+              </p>
+              <p>
+                La plupart des dirigeants que nous accompagnons ne savent pas exactement ce qu&apos;ils
+                se versent, ni sous quelle forme, ni pourquoi c&apos;est construit comme ça. Ce
+                n&apos;est pas une lacune : c&apos;est précisément le problème que nous traitons.
+                Entre le juridique, le social et le fiscal, personne ne vous a jamais expliqué
+                clairement comment ces trois-là s&apos;articulent chez vous.
+              </p>
+              <p>
+                Notre métier, c&apos;est de vulgariser ce flou. Pas de vous interroger, pas de vous
+                mettre la pression. Vous répondez ce que vous savez, nous allons chercher le reste.
+              </p>
+              <p className="signature">C&apos;est pas compliqué, juste mal expliqué.</p>
             </div>
           </div>
         </section>
@@ -685,7 +806,7 @@ export default function Page() {
               relève de nous, pas à alimenter une base de prospection. Dès la deuxième étape, avant
               toute coordonnée, vous verrez apparaître une fourchette chiffrée de l&apos;écart annuel
               que nous irions chercher chez vous. Ensuite, une personne du cabinet vous répond sous
-              deux heures ouvrées.
+              24 h ouvrées.
             </p>
             <Formulaire />
           </div>

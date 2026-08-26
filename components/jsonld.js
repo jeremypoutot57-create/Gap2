@@ -33,8 +33,8 @@ export const jsonLd = {
       "@type": "FAQPage",
       mainEntity: [
         [
-          "Combien coûte une mission Cap. ?",
-          "Le tarif est unique, forfaitaire, annoncé avant tout engagement et payable en deux fois au maximum. Il n'est pas affiché car il n'a de sens qu'une fois la situation du dirigeant regardée.",
+          "Faut-il savoir comment on se rémunère avant de contacter Cap. ?",
+          "Non. La plupart des dirigeants ne savent pas exactement ce qu'ils se versent ni sous quelle forme, et c'est précisément le problème que la mission traite. Le dirigeant répond ce qu'il sait, le cabinet va chercher le reste dans les documents.",
         ],
         [
           "Est-ce que Cap. remplace mon expert-comptable ?",

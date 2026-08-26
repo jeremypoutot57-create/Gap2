@@ -187,7 +187,7 @@ export default function Formulaire() {
               <h3>{d.prenom ? d.prenom + ", votre fiche est arrivée chez nous." : "Votre fiche est arrivée chez nous."}</h3>
               <p>
                 Nous l&apos;avons lue en entier, ce n&apos;est pas un formulaire automatique. Jérémy
-                ou Marie-Amélie vous répond sous deux heures ouvrées, personnellement, en reprenant
+                ou Marie-Amélie vous répond sous 24 h ouvrées, personnellement, en reprenant
                 ce que vous venez d&apos;écrire. Si votre dossier ne relève pas de Cap., vous le
                 saurez dans le même délai, avec une indication de ce qu&apos;il faut regarder à la
                 place.
@@ -250,7 +250,7 @@ export default function Formulaire() {
               ? "Étape 3 sur 4 · vos coordonnées"
               : "Étape 4 sur 4 · ce que nous avons compris"}
           </span>
-          <span>Réponse sous 2 h ouvrées</span>
+          <span>Réponse sous 24 h ouvrées</span>
         </div>
         <div className="jauge">
           <i style={{ width: etape * 25 + "%" }} />
@@ -339,7 +339,7 @@ export default function Formulaire() {
               <label htmlFor="ch-ca">Chiffre d&apos;affaires annuel</label>
               <span className="aide">
                 En dessous de 150 000 €, nous vous le dirons franchement : le levier n&apos;existe pas
-                encore et la mission ne vaudrait pas son prix.
+                encore, et nous ne serions pas utiles.
               </span>
               <select id="ch-ca" value={d.ca} onChange={maj("ca")} style={erreur("ca")}>
                 <option value="">Choisir</option>
