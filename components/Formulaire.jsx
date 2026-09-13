@@ -5,7 +5,7 @@ import { estimer, fmt } from "./estimation";
 import { DECLENCHEURS, ECHEANCES, COUTS, TENTATIVES, CONDITIONNELLES, SOUHAITS } from "./donnees";
 import { phraseRecap, lignesRecap } from "./recapitulatif";
 
-const CAL = process.env.NEXT_PUBLIC_CAL_URL || "https://cal.com/arras-patrimoine/decouverte-rem";
+const CAL = process.env.NEXT_PUBLIC_CAL_URL || "https://cal.com/arras-patrimoine/post-reservation";
 
 const VIDE = {
   remuneration: "",
@@ -208,7 +208,7 @@ export default function Formulaire() {
               rel="noopener noreferrer"
               data-ev="cta_cal_succes"
             >
-              Choisir mon créneau de 30 minutes <span className="fl">→</span>
+              Choisir mon créneau de 25 minutes <span className="fl">→</span>
             </a>
             <a
               className="btn btn--fantome"
@@ -222,7 +222,7 @@ export default function Formulaire() {
           <div className="cal-embed">
             <iframe
               src={CAL + "?embed=true"}
-              title="Réserver 30 minutes avec Arras Patrimoine"
+              title="Réserver 25 minutes avec Arras Patrimoine"
               loading="lazy"
             />
           </div>

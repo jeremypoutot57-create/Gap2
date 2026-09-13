@@ -21,7 +21,7 @@ npm run dev                  # http://localhost:3000
 | `LEAD_EMAIL_TO` | non | Destinataires, séparés par des virgules. Défaut : `contact@arras-patrimoine.fr` |
 | `LEAD_EMAIL_FROM` | non | Expéditeur, sur un domaine vérifié dans Resend |
 | `NEXT_PUBLIC_SITE_URL` | oui | `https://cap.arras-patrimoine.fr` |
-| `NEXT_PUBLIC_CAL_URL` | non | Lien Cal, par défaut `.../decouverte-rem` |
+| `NEXT_PUBLIC_CAL_URL` | non | Lien Cal, par défaut `.../post-reservation` |
 | `NEXT_PUBLIC_BUNNY_LIBRARY` | non | Bibliothèque Bunny, par défaut `602292` |
 | `NEXT_PUBLIC_BUNNY_VIDEO` | non | Identifiant de la vidéo |
 | `NEXT_PUBLIC_MOIS_COURANT` | non | Bloc capacité : mois en cours de constitution |
