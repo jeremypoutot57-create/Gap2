@@ -1,6 +1,7 @@
-// Point unique du pixel Meta. Aucun événement ne part si NEXT_PUBLIC_META_PIXEL_ID est absent :
-// le site fonctionne normalement, il n'est simplement pas mesuré.
-export const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || "";
+// Point unique du pixel Meta. L'identifiant du pixel Cap. est en repli, pour que la mesure parte
+// même si la variable d'environnement n'a pas encore été créée sur Vercel. La variable, si elle
+// existe, prend le dessus : c'est elle qui permet de basculer sur un autre pixel sans toucher au code.
+export const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || "1532209741677590";
 
 // Identifiant d'événement, pour la déduplication avec l'API de conversions côté serveur.
 export function idEvenement() {

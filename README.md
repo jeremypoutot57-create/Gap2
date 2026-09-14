@@ -33,7 +33,7 @@ Sur GitHub → Vercel : importer le dépôt, framework Next.js détecté automat
 
 **systeme.io** : créer les tags `cap-lead` et `cap-hors-cible`, la campagne « Cap. examen de dossier » (7 mails du kit nurturing) déclenchée par le tag `cap-lead`, et la règle « tag `cap-rdv-pris` → sortie de campagne ». Le tag `cap-rdv-pris` se pose via un webhook Cal → systeme.io (ou manuellement le temps de le brancher).
 
-**Meta** : coller l'identifiant du pixel dans `NEXT_PUBLIC_META_PIXEL_ID`. Vérifier dans le Gestionnaire d'événements que `Lead` et `Contact` remontent (outil de test d'événements). Objectif de conversion des campagnes : **Lead**.
+**Meta** : le pixel `1532209741677590` est déjà câblé (repli dans `components/pixel.js`, surchargeable par `NEXT_PUBLIC_META_PIXEL_ID`). Rien à faire pour qu'il parte. Une fois en ligne, vérifier dans le Gestionnaire d'événements que `PageView`, `Lead` et `Contact` remontent (outil de test d'événements, en collant l'URL de la page). Objectif de conversion des campagnes : **Lead**. `QuizOuvert` est un événement personnalisé, utile en audience de reciblage (a ouvert le questionnaire sans le finir).
 
 ## Contenu
 
