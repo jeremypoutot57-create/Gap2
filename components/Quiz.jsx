@@ -38,7 +38,11 @@ export default function Quiz({ ouvert, fermer, origine }) {
     };
   }, [ouvert, origine]);
 
+  // C'est le voile qui défile, pas le panneau : chaque nouvelle étape doit repartir du haut,
+  // sinon on arrive au milieu de l'écran suivant après avoir fait défiler le précédent.
   useEffect(() => {
+    const v = panneau.current && panneau.current.parentElement;
+    if (v) v.scrollTop = 0;
     if (panneau.current) panneau.current.scrollTop = 0;
   }, [etape]);
 

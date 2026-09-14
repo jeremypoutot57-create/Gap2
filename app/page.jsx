@@ -5,6 +5,7 @@ import Quiz from "../components/Quiz";
 import Effets from "../components/Effets";
 import Collant from "../components/Collant";
 import MurAvis from "../components/MurAvis";
+import Dossiers from "../components/Dossiers";
 
 export default function Page() {
   const [quiz, setQuiz] = useState(false);
@@ -36,7 +37,7 @@ export default function Page() {
           <div className="wrap">
             <div className="hero-grid">
               <div className="hero-txt">
-                <div className="pour-qui"><i>✓</i> Dirigeants de PME · à partir de 350 k€ de chiffre d'affaires</div>
+                <div className="pour-qui"><i>✓</i> <span className="u-long">Dirigeants de PME · à partir de 350 k€ de chiffre d'affaires</span><span className="u-court">Dirigeants de PME · dès 350 k€ de CA</span></div>
                 <h1>Vous décidez de tout dans votre boîte.<br /><span className="surligne">Sauf de ce que vous gagnez.</span></h1>
                 <p className="promesse">Cap. chiffre ce que vous coûte réellement chaque euro que vous vous versez, projette au minimum trois architectures de rémunération sur votre dossier réel, et vous rend la décision. Trente jours.</p>
               </div>
@@ -45,9 +46,9 @@ export default function Page() {
                 <Video />
               </div>
 
-              <div className="cta-zone hero-cta" style={{ marginTop: "0" }}>
+              <div className="cta-zone hero-cta" id="cta-hero" style={{ marginTop: "0" }}>
                 <button className="btn btn--primaire btn--large" onClick={() => ouvrir("hero")}>Faire examiner mon dossier <span className="fl">→</span></button>
-                <p className="micro">100 % gratuit · sans engagement · réponse sous 24 h ouvrées</p>
+                <p className="micro"><span className="u-long">100 % gratuit · sans engagement · réponse sous 24 h ouvrées</span><span className="u-court">Gratuit · sans engagement · réponse sous 24 h</span></p>
               </div>
             </div>
           </div>
@@ -243,51 +244,7 @@ export default function Page() {
             <h2 className="u-h2">Des décisions. Pas des promesses.</h2>
             <p className="lead">Trois dossiers livrés, anonymisés en typologies. Ce sont des projections à droit constant, sur dossiers réels, sans valeur d'engagement. Aucun nom, aucune ville, aucun montant qui identifie.</p>
 
-            <div className="u-dossiers">
-              <article className="u-dossier">
-                <span className="u-dossier-type">L'architecte</span>
-                <p className="u-dossier-avant">Profession libérale, société seule. Une rémunération installée au départ et jamais rouverte, un prélèvement global de 38 % sur les flux.</p>
-                <div className="u-dossier-mesure">
-                  <b>38 % <i>→</i> 21 %</b>
-                  <span>de prélèvement global sur les flux, à droit constant</span>
-                </div>
-                <div className="u-dossier-lignes">
-                  <div><span>Revenu net disponible, première année</span><b>29 900 € → 44 100 €</b></div>
-                  <div><span>Puis en régime de croisière</span><b>59 800 €</b></div>
-                  <div><span>Ce que sa holding capitalise chaque année</span><b>27 700 €</b></div>
-                </div>
-                <p className="u-dossier-chute">Honoraires de mission 8 900 € HT. Écart de première année 14 200 €. La mission s'est amortie dans l'année.</p>
-              </article>
-
-              <article className="u-dossier">
-                <span className="u-dossier-type">Le groupe multi-sociétés</span>
-                <p className="u-dossier-avant">Plusieurs sociétés, un besoin de vie de 150 000 € par an, et une architecture qui avait survécu à la croissance. Même montant à sortir, plusieurs façons de le faire sortir.</p>
-                <div className="u-dossier-mesure">
-                  <b>+ 41 000 €</b>
-                  <span>de valeur économique par an entre la moins bonne et la meilleure des architectures projetées</span>
-                </div>
-                <div className="u-dossier-lignes">
-                  <div><span>Coût employeur, pour le même besoin de vie</span><b>35 000 € de moins</b></div>
-                  <div><span>Écart de patrimoine constitué, projeté sur dix ans</span><b>900 000 €</b></div>
-                  <div><span>De 2,9 millions à</span><b>3,8 millions</b></div>
-                </div>
-                <p className="u-dossier-chute">L'architecture compte plus que le montant.</p>
-              </article>
-
-              <article className="u-dossier">
-                <span className="u-dossier-type">Le repreneur de 26 ans</span>
-                <p className="u-dossier-avant">Une reprise, zéro flux organisé. Marque non déposée, crédit-vendeur non formalisé, tout à construire avant de décider quoi que ce soit.</p>
-                <div className="u-dossier-mesure">
-                  <b>≈ 688 000 €</b>
-                  <span>de capitalisation de groupe projetée à cinq ans, à partir de quatre canaux de revenu organisés</span>
-                </div>
-                <div className="u-dossier-lignes">
-                  <div><span>Canaux de revenu, de zéro à</span><b>quatre</b></div>
-                  <div><span>Le seul choix du débiteur d'une redevance de marque, sur la durée du plan</span><b>19 000 €</b></div>
-                </div>
-                <p className="u-dossier-chute">La granularité fait la différence. Un détail de structure pèse cinq chiffres.</p>
-              </article>
-            </div>
+            <Dossiers />
 
             <div className="u-fourchette">
               <b>Sur nos dossiers livrés</b>

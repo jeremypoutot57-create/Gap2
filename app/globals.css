@@ -8,6 +8,8 @@
   --body:"Inter",system-ui,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,monospace;
   --gouttiere:clamp(20px,4vw,64px);--bloc:clamp(84px,11vw,164px);--max:1180px;--r:10px;--r-s:8px;
+  /* marge latérale de toute la page : sans elle le texte colle au bord sur téléphone */
+  --gout:clamp(20px,5vw,56px);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -223,7 +225,7 @@ section.sombre{background:linear-gradient(180deg,rgba(7,14,25,.6),rgba(7,14,25,.
 .k-jauge{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.1);overflow:hidden}
 .k-jauge i{display:block;height:100%;width:33%;background:var(--rose);transition:width .32s ease}
 .k-pas{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--gris-bas);white-space:nowrap}
-.k-fermer{background:none;border:0;color:var(--gris);font-size:22px;line-height:1;cursor:pointer;padding:.2em .3em}
+.k-fermer{background:none;border:0;color:var(--gris);font-size:22px;line-height:1;cursor:pointer;padding:0;width:44px;height:44px;display:grid;place-items:center;margin-right:-10px}
 .k-fermer:hover{color:var(--rose)}
 .k-corps{padding:1.6em var(--gout) 2.4em}
 @media(min-width:720px){.k-corps{padding:1.9em 28px 2.2em}}
@@ -239,14 +241,14 @@ select:focus,input:focus{border-color:var(--rose);outline:none}
 .k-paire{display:grid;gap:1.3em}
 @media(min-width:520px){.k-paire{grid-template-columns:1fr 1fr}}
 .k-choix{display:flex;flex-wrap:wrap;gap:8px}
-.k-choix button{font-family:var(--body);font-size:14px;color:var(--texte);background:rgba(255,255,255,.035);border:1px solid var(--trait);border-radius:var(--r-s);padding:.7em 1em;cursor:pointer;text-align:left}
+.k-choix button{min-height:44px;display:inline-flex;align-items:center;font-family:var(--body);font-size:14px;color:var(--texte);background:rgba(255,255,255,.035);border:1px solid var(--trait);border-radius:var(--r-s);padding:.7em 1em;cursor:pointer;text-align:left}
 .k-choix button:hover{border-color:var(--rose-30);background:var(--rose-14)}
 .k-choix button[aria-pressed="true"]{border-color:var(--rose);background:var(--rose-14);color:#fff}
 .k-erreur{color:var(--rose);font-size:13.5px;margin:.4em 0 0}
 .k-rassure{font-size:12.5px;color:var(--gris-bas);margin:1.2em 0 0;display:flex;gap:.5em;align-items:flex-start}
 .k-rassure i{color:var(--vert);font-style:normal}
 .k-pied{margin-top:.6em;display:flex;gap:.8em;align-items:center;flex-wrap:wrap}
-.k-retour{background:none;border:0;color:var(--gris-bas);font-size:14px;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.k-retour{background:none;border:0;color:var(--gris-bas);font-size:14px;cursor:pointer;text-decoration:underline;text-underline-offset:4px;min-height:44px;padding-inline:2px}
 
 /* ——— verdict ——— */
 .k-verdict{text-align:left}
@@ -275,7 +277,7 @@ details .rep p{font-size:15px;margin:0;color:#C6D2E0}
 .prep p{margin:0;font-size:14.5px}
 
 /* ——— page VSL ——— */
-.vsl-page{min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding-block:clamp(26px,5vw,60px)}
+.vsl-page{min-height:100vh;min-height:100dvh;display:flex;align-items:flex-start;justify-content:center;padding-block:clamp(26px,5vw,60px)}
 .vsl-wrap{width:100%;max-width:720px;padding-inline:var(--gout)}
 .vsl-mention{font-size:11.5px;line-height:1.5;color:var(--gris-bas);border:1px solid var(--trait);border-radius:var(--r-s);padding:.8em 1em;max-width:none;margin-bottom:1.8rem}
 .vsl-h1{font-size:clamp(27px,5.6vw,42px);line-height:1.12;margin-bottom:.45em}
@@ -519,19 +521,27 @@ section{padding-block:clamp(60px,10vw,132px)}
 
 /* ——— dossiers en typologies ——— */
 .u-dossiers{display:grid;gap:16px;margin-top:2.6rem}
-@media(min-width:1000px){.u-dossiers{grid-template-columns:repeat(3,1fr)}}
-.u-dossier{display:flex;flex-direction:column;border:1px solid var(--trait-fort);border-radius:18px;background:rgba(7,14,25,.55);padding:clamp(22px,2.8vw,30px)}
-.u-dossier-type{font-family:var(--display);font-size:clamp(21px,2.4vw,26px);font-weight:700;letter-spacing:-.03em;color:#fff;margin-bottom:.6em}
-.u-dossier-avant{font-size:14.5px;color:#C6D2E0;margin-bottom:1.3em}
-.u-dossier-mesure{border-top:1px solid var(--trait);border-bottom:1px solid var(--trait);padding:1.1em 0;margin-bottom:.3em}
-.u-dossier-mesure b{display:block;font-family:var(--display);font-size:clamp(30px,3.6vw,42px);font-weight:700;letter-spacing:-.05em;line-height:1;color:#fff;font-variant-numeric:tabular-nums}
-.u-dossier-mesure b i{font-style:normal;color:var(--rose);font-weight:400;margin:0 .1em}
-.u-dossier-mesure span{display:block;font-size:13px;color:var(--gris);margin-top:.6em;line-height:1.45}
-.u-dossier-lignes{display:grid}
-.u-dossier-lignes div{display:flex;justify-content:space-between;align-items:baseline;gap:1em;padding:.75em 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:13.5px}
-.u-dossier-lignes span{color:var(--gris)}
-.u-dossier-lignes b{color:#fff;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums;text-align:right}
-.u-dossier-chute{margin:1.2em 0 0;font-size:14px;color:var(--rose);font-weight:500;margin-top:auto;padding-top:1.2em}
+.u-dossier{display:flex;flex-direction:column;border:1px solid var(--trait-fort);border-radius:18px;background:rgba(7,14,25,.55);padding:clamp(22px,2.6vw,30px)}
+/* Sur grand écran les trois cartes partagent leurs rangées : les mêmes lignes se font face,
+   d'une typologie à l'autre, et l'œil compare sans avoir à chercher. */
+@media(min-width:1000px){
+  .u-dossiers{grid-template-columns:repeat(3,1fr);align-items:stretch}
+  .u-dossier{grid-row:span 5;display:grid;grid-template-rows:subgrid;row-gap:0}
+}
+.u-dossier-tete{display:block;margin-bottom:.9em}
+.u-dossier-type{display:block;font-family:var(--display);font-size:clamp(21px,2.3vw,26px);font-weight:700;letter-spacing:-.035em;color:#fff;line-height:1.1}
+.u-dossier-profil{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--gris-bas);margin-top:.7em;line-height:1.5}
+.u-dossier-avant{font-size:14.5px;color:#C6D2E0;margin:0 0 1.3em;max-width:none}
+.u-dossier-grille{border-top:1px solid var(--trait);align-self:start;width:100%}
+.u-dossier-l{padding:.95em 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.u-dossier-l span{display:block;font-size:12.5px;line-height:1.4;color:var(--gris)}
+.u-dossier-l b{display:block;color:#fff;font-weight:600;font-size:16px;margin-top:.3em;font-variant-numeric:tabular-nums}
+.u-dossier-l:first-child b{font-family:var(--display);font-size:clamp(29px,3.5vw,40px);font-weight:700;letter-spacing:-.05em;line-height:1.02;margin-top:.2em}
+.u-dossier-l b.u-dossier-vide{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--fauve);font-weight:500}
+.u-dossier-l:first-child b{white-space:nowrap;display:flex;align-items:flex-end;min-height:calc(clamp(29px,3.5vw,40px) * 1.06)}
+.u-dossier-l:first-child b i{font-style:normal;color:var(--rose);font-weight:400;margin:0 .08em}
+.u-dossier-detail{font-size:13px;line-height:1.5;color:var(--gris);margin:1.1em 0 0;max-width:none}
+.u-dossier-chute{margin:1.1em 0 0;padding-top:1.1em;border-top:1px solid rgba(255,255,255,.07);font-size:14px;line-height:1.5;color:var(--rose);font-weight:500;max-width:none;align-self:end}
 .u-fourchette{margin-top:16px;border:1px solid var(--trait);border-radius:16px;padding:clamp(20px,2.8vw,28px);background:rgba(255,255,255,.025);display:grid;gap:.5em}
 @media(min-width:820px){.u-fourchette{grid-template-columns:220px 1fr;gap:2em;align-items:start}}
 .u-fourchette b{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--rose)}
@@ -542,3 +552,46 @@ section{padding-block:clamp(60px,10vw,132px)}
 
 .k-cal{min-height:560px;margin-top:1.4em;border-radius:12px;overflow:hidden;border:1px solid var(--trait-fort)}
 .k-bloc{width:100%}
+
+/* ═══════════════ TÉLÉPHONE ═══════════════
+   Règle unique : un bouton d'action toujours à l'écran, sans avoir à faire défiler.
+   Le hero mobile est réordonné (badge, titre, vidéo, bouton, puis la promesse), ce qui
+   fait remonter le bouton au-dessus de la ligne de flottaison sur tous les formats. */
+@media(max-width:719px){
+  .entete .in{padding-block:.45em}
+  .hero{padding-top:10px;padding-bottom:32px}
+  .hero-txt{display:contents}
+  .hero-grid{gap:13px}
+  .pour-qui{order:1;margin-bottom:0;font-size:12.5px;padding:.34em .8em;line-height:1.35}
+  .hero h1{order:2;font-size:clamp(28px,8.2vw,40px);line-height:1.02;margin-bottom:0}
+  .u-lecteur{order:3}
+  .hero .cta-zone{order:4;margin-top:0}
+  .hero .promesse{order:5;font-size:16px;line-height:1.55;margin:0}
+  .u-bande{margin-top:26px}
+  .hero .cta-zone .micro{text-align:center;font-size:12.5px;line-height:1.45}
+  /* le libellé du bouton doit tenir sur une seule ligne, flèche comprise */
+  .btn--large{font-size:15.5px;padding:1.05em 1.1em}
+  .cta-zone .btn{justify-content:center}
+  section{padding-block:clamp(48px,9vw,72px)}
+  /* Les intitulés en petites capitales restent lisibles à bout de bras. */
+  .u-eq-role,.u-temps-role,.u-flux-quand{font-size:11.5px;letter-spacing:.09em}
+  .u-avis-role{font-size:12.5px}
+  .u-orias{font-size:11.5px;line-height:1.5}
+}
+
+/* Zones tactiles : rien de cliquable sous 44 px de haut. */
+@media(max-width:959px){
+  .entete .btn{min-height:44px;padding-block:0}
+  .btn{min-height:46px}
+  .pied a{display:inline-flex;align-items:center;min-height:44px}
+  .pied{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+  .faq summary{min-height:52px;display:flex;align-items:center}
+}
+
+/* Les quatre décisions : les vignettes ne doivent jamais élargir la page. */
+.u-pole,.u-pole-visuel,.u-pole-txt{min-width:0}
+.u-pole-visuel{overflow:hidden}
+@media(max-width:559px){
+  .u-pole-visuel{padding:16px 14px;gap:6px}
+  .u-etage{font-size:9px;letter-spacing:.06em;padding:.5em .45em}
+}

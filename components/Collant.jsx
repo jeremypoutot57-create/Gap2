@@ -1,14 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
 
-// Rappel collant mobile : le même bouton, jamais une offre parallèle. Apparaît dès qu'on quitte le hero.
+// Rappel collant mobile : le même bouton, jamais une offre parallèle.
+// Il suit le bouton du hero, pas la section : dès que ce bouton n'est plus à l'écran, le rappel
+// prend le relais, y compris au tout premier affichage sur un petit téléphone où le hero
+// dépasse la ligne de flottaison. Il n'y a donc jamais deux boutons visibles, et jamais zéro.
 export default function Collant({ ouvrir }) {
   const [on, setOn] = useState(false);
   useEffect(() => {
-    const h = document.getElementById("hero");
-    if (!h || !("IntersectionObserver" in window)) return;
-    const io = new IntersectionObserver((es) => es.forEach((e) => setOn(!e.isIntersecting)), { threshold: 0 });
-    io.observe(h);
+    const cible = document.getElementById("cta-hero") || document.getElementById("hero");
+    if (!cible || !("IntersectionObserver" in window)) return;
+    const io = new IntersectionObserver((es) => es.forEach((e) => setOn(!e.isIntersecting)), { threshold: 0.6 });
+    io.observe(cible);
     return () => io.disconnect();
   }, []);
   return (

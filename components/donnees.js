@@ -239,3 +239,46 @@ export const COMPTABLE = [
   "Il risque de freiner",
   "Je ne compte pas lui en parler tout de suite",
 ];
+
+/* ——— Dossiers livrés, lus à la même grille ———
+   Les trois cartes affichent exactement les mêmes intitulés, dans le même ordre : c'est ce qui
+   rend les typologies comparables d'un coup d'œil. Une valeur vide masque proprement sa ligne,
+   mais l'objectif est d'avoir les trois lignes remplies partout. */
+export const DOSSIERS_GRILLE = [
+  "Ce que l'architecture rend, chaque année",
+  "Ce qu'elle construit, à cinq ans",
+  "Honoraires de la mission",
+];
+
+export const DOSSIERS = [
+  {
+    type: "L'architecte",
+    profil: "Profession libérale · société seule · holding",
+    depart:
+      "Une rémunération installée au départ et jamais rouverte. 38 % de prélèvement global sur chaque euro sorti.",
+    valeurs: ["+ 29 900 €", "", "8 900 € HT"],
+    detail:
+      "Revenu net disponible 29 900 € → 59 800 €, et 27 700 € capitalisés chaque année dans la holding. Prélèvement global ramené de 38 % à 21 %, à droit constant.",
+    chute: "Écart dès la première année 14 200 €, pour 8 900 € d'honoraires. La mission s'est payée seule.",
+  },
+  {
+    type: "Le groupe",
+    profil: "Plusieurs sociétés · holding · 150 k€ de besoin de vie",
+    depart:
+      "Une architecture qui avait survécu à la croissance. Même montant à sortir, plusieurs façons de le faire sortir.",
+    valeurs: ["+ 41 000 €", "", ""],
+    detail:
+      "35 000 € de coût employeur en moins pour le même besoin de vie, et 900 000 € d'écart de patrimoine projeté à dix ans : de 2,9 à 3,8 millions.",
+    chute: "L'architecture compte plus que le montant.",
+  },
+  {
+    type: "Le repreneur",
+    profil: "Reprise à 26 ans · groupe à construire · aucun flux organisé",
+    depart:
+      "Marque non déposée, crédit-vendeur non formalisé. Tout à construire avant de décider quoi que ce soit.",
+    valeurs: ["", "≈ 688 000 €", ""],
+    detail:
+      "Quatre canaux de revenu organisés là où il n'y en avait aucun, et 19 000 € sur le seul choix du débiteur d'une redevance de marque.",
+    chute: "La granularité fait la différence. Un détail de structure pèse cinq chiffres.",
+  },
+];
